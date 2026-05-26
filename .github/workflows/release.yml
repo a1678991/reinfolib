@@ -40,11 +40,8 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
-      - name: Configure npm auth for GitHub Packages
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> .npmrc
-
-      - run: pnpm release
+      - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm release
