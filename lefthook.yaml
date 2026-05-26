@@ -1,0 +1,29 @@
+commit-msg:
+  parallel: true
+  jobs:
+    - name: commitlint
+      run: pnpm run commitlint --edit {1}
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: lint
+      glob: "*.{ts,js,mjs,cjs}"
+      run: pnpm oxlint {staged_files}
+    - name: fmt
+      glob: "*.{ts,js,mjs,cjs,json,md,yml,yaml}"
+      run: pnpm oxfmt --check {staged_files}
+    - name: typecheck
+      run: pnpm typecheck
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: check-branch
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        if [ "$branch" = "main" ]; then
+          echo "❌ Direct push to main branch is not allowed!"
+          echo "Please create a feature branch and open a pull request."
+          exit 1
+        fi
