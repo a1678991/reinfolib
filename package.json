@@ -1,0 +1,45 @@
+{
+  "name": "@a1678991/reinfolib",
+  "version": "0.0.0-development",
+  "description": "TypeScript client for the MLIT 不動産情報ライブラリ (Real Estate Information Library) API",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a1678991/reinfolib.git"
+  },
+  "homepage": "https://github.com/a1678991/reinfolib#readme",
+  "bugs": {
+    "url": "https://github.com/a1678991/reinfolib/issues"
+  },
+  "keywords": ["mlit", "reinfolib", "real-estate", "japan", "api-client", "typescript", "zod"],
+  "license": "MIT",
+  "author": "a1678991",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "INTEGRATION=1 vitest run tests/integration",
+    "commitlint": "commitlint --edit",
+    "release": "semantic-release"
+  }
+}
