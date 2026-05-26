@@ -2,6 +2,30 @@
   "name": "@a1678991/reinfolib",
   "version": "0.0.0-development",
   "description": "TypeScript client for the MLIT 不動産情報ライブラリ (Real Estate Information Library) API",
+  "keywords": [
+    "api-client",
+    "japan",
+    "mlit",
+    "real-estate",
+    "reinfolib",
+    "typescript",
+    "zod"
+  ],
+  "homepage": "https://github.com/a1678991/reinfolib#readme",
+  "bugs": {
+    "url": "https://github.com/a1678991/reinfolib/issues"
+  },
+  "license": "MIT",
+  "author": "a1678991",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a1678991/reinfolib.git"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,36 +35,9 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "engines": {
-    "node": ">=24"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/a1678991/reinfolib.git"
-  },
-  "homepage": "https://github.com/a1678991/reinfolib#readme",
-  "bugs": {
-    "url": "https://github.com/a1678991/reinfolib/issues"
-  },
-  "keywords": [
-    "mlit",
-    "reinfolib",
-    "real-estate",
-    "japan",
-    "api-client",
-    "typescript",
-    "zod"
-  ],
-  "license": "MIT",
-  "author": "a1678991",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
@@ -72,5 +69,8 @@
     "semantic-release": "^25.0.3",
     "typescript": "^6.0.3",
     "vitest": "^4.1.7"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

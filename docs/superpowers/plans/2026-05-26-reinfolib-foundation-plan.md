@@ -11,7 +11,8 @@
 **Spec reference:** `docs/superpowers/specs/2026-05-26-reinfolib-typescript-client-design.md`
 
 **Out of scope (deferred to Plan 2):**
-- GIS endpoints (all XKT*, XCT*, XPT*, XGT*, XST*)
+
+- GIS endpoints (all XKT*, XCT*, XPT*, XGT*, XST\*)
 - `core/geojson.ts` (FeatureCollection schemas)
 - PBF format branching in the request pipeline
 - The other 30 endpoints
@@ -74,20 +75,24 @@ reinfolib/
 ## Task 1: Initialize repository
 
 **Files:**
+
 - Create: `package.json`, `.gitignore`, `LICENSE`, `tsconfig.json`, `tsconfig.build.json`, `README.md` (stub)
 
 - [ ] **Step 1.1: Initialize git**
 
 Run (from `/home/a1678991/IdeaProjects/tools/reinfolib`):
+
 ```bash
 git init
 git branch -M main
 ```
+
 Expected: `Initialized empty Git repository in .../.git/`
 
 - [ ] **Step 1.2: Create `.gitignore`**
 
 Write `.gitignore`:
+
 ```
 node_modules
 dist
@@ -102,6 +107,7 @@ coverage
 - [ ] **Step 1.3: Create `LICENSE` (MIT)**
 
 Write `LICENSE`:
+
 ```
 MIT License
 
@@ -129,6 +135,7 @@ SOFTWARE.
 - [ ] **Step 1.4: Create `package.json`**
 
 Write `package.json`:
+
 ```json
 {
   "name": "@a1678991/reinfolib",
@@ -181,6 +188,7 @@ Write `package.json`:
 - [ ] **Step 1.5: Create `tsconfig.json`** (editor/typecheck — `noEmit`)
 
 Write `tsconfig.json`:
+
 ```json
 {
   "compilerOptions": {
@@ -207,6 +215,7 @@ Write `tsconfig.json`:
 - [ ] **Step 1.6: Create `tsconfig.build.json`** (emits to `dist/`)
 
 Write `tsconfig.build.json`:
+
 ```json
 {
   "extends": "./tsconfig.json",
@@ -226,6 +235,7 @@ Write `tsconfig.build.json`:
 - [ ] **Step 1.7: Create stub `README.md`**
 
 Write `README.md`:
+
 ```markdown
 # @a1678991/reinfolib
 
@@ -246,12 +256,14 @@ git commit -m "chore: scaffold package metadata and tsconfig"
 ## Task 2: Install dependencies
 
 **Files:**
+
 - Modify: `package.json` (deps populated by pnpm)
 - Create: `pnpm-lock.yaml`
 
 - [ ] **Step 2.1: Install runtime + dev deps**
 
 Run:
+
 ```bash
 pnpm add zod@^4.4.3
 pnpm add -D typescript@^6.0.3 oxlint@^1.67.0 oxfmt@~0.52.0 vitest@^4.1.7 \
@@ -262,14 +274,17 @@ pnpm add -D typescript@^6.0.3 oxlint@^1.67.0 oxfmt@~0.52.0 vitest@^4.1.7 \
   @semantic-release/npm@^13.1.5 @semantic-release/github@^12.0.8 \
   @semantic-release/git@^10.0.1
 ```
+
 Expected: pnpm completes; `pnpm-lock.yaml` is created.
 
 - [ ] **Step 2.2: Verify typescript runs**
 
 Run:
+
 ```bash
 pnpm exec tsc --version
 ```
+
 Expected output: `Version 6.0.3` (or matching `^6.0.3`).
 
 - [ ] **Step 2.3: Commit**
@@ -284,6 +299,7 @@ git commit -m "chore: install dependencies"
 ## Task 3: Configure oxlint
 
 **Files:**
+
 - Create: `.oxlintrc.json`
 
 - [ ] **Step 3.1: Write `.oxlintrc.json`**
@@ -307,9 +323,11 @@ git commit -m "chore: install dependencies"
 - [ ] **Step 3.2: Verify oxlint runs (no files yet — should succeed)**
 
 Run:
+
 ```bash
 pnpm lint
 ```
+
 Expected: oxlint reports 0 errors (no source yet).
 
 - [ ] **Step 3.3: Commit**
@@ -328,9 +346,11 @@ oxfmt uses sensible defaults; no config file required.
 - [ ] **Step 4.1: Verify oxfmt runs**
 
 Run:
+
 ```bash
 pnpm fmt:check
 ```
+
 Expected: oxfmt exits 0 (nothing to check yet) OR reports its current behavior. Either way, the command must not error.
 
 - [ ] **Step 4.2: Commit (no-op if nothing changed)**
@@ -342,6 +362,7 @@ Only commit if something needs committing.
 ## Task 5: Configure vitest
 
 **Files:**
+
 - Create: `vitest.config.ts`
 
 - [ ] **Step 5.1: Write `vitest.config.ts`**
@@ -365,6 +386,7 @@ export default defineConfig({
 - [ ] **Step 5.2: Add a smoke test**
 
 Create `tests/unit/smoke.test.ts`:
+
 ```ts
 import { describe, it, expect } from "vitest";
 
@@ -378,9 +400,11 @@ describe("smoke", () => {
 - [ ] **Step 5.3: Run tests**
 
 Run:
+
 ```bash
 pnpm test
 ```
+
 Expected: 1 test passes.
 
 - [ ] **Step 5.4: Commit**
@@ -395,6 +419,7 @@ git commit -m "chore: configure vitest"
 ## Task 6: Configure commitlint
 
 **Files:**
+
 - Create: `commitlint.config.mjs`
 
 - [ ] **Step 6.1: Write `commitlint.config.mjs`**
@@ -412,17 +437,21 @@ export default {
 - [ ] **Step 6.2: Verify commitlint accepts a valid message**
 
 Run:
+
 ```bash
 echo "feat: add commitlint config" | pnpm exec commitlint
 ```
+
 Expected: exit 0, no output.
 
 - [ ] **Step 6.3: Verify commitlint rejects invalid**
 
 Run:
+
 ```bash
 echo "bad message" | pnpm exec commitlint
 ```
+
 Expected: non-zero exit; output mentions `subject-empty` or `type-empty`.
 
 - [ ] **Step 6.4: Commit**
@@ -437,6 +466,7 @@ git commit -m "chore: configure commitlint"
 ## Task 7: Configure lefthook
 
 **Files:**
+
 - Create: `lefthook.yaml`
 
 - [ ] **Step 7.1: Write `lefthook.yaml`**
@@ -476,17 +506,21 @@ pre-push:
 - [ ] **Step 7.2: Install hooks**
 
 Run:
+
 ```bash
 pnpm exec lefthook install
 ```
+
 Expected: `sync hooks: ✔️ (commit-msg, pre-commit, pre-push)`.
 
 - [ ] **Step 7.3: Verify commit-msg hook rejects bad message**
 
 Run (must fail before commit is made):
+
 ```bash
 git commit --allow-empty -m "bad message" || echo "hook blocked as expected"
 ```
+
 Expected: commit aborted; "hook blocked as expected" printed.
 
 - [ ] **Step 7.4: Commit lefthook config**
@@ -501,6 +535,7 @@ git commit -m "chore: configure lefthook git hooks"
 ## Task 8: Configure semantic-release
 
 **Files:**
+
 - Create: `release.config.mjs`
 
 - [ ] **Step 8.1: Write `release.config.mjs`**
@@ -541,6 +576,7 @@ git commit -m "chore: configure semantic-release"
 ## Task 9: Configure Renovate
 
 **Files:**
+
 - Create: `renovate.json`
 
 - [ ] **Step 9.1: Write `renovate.json`**
@@ -573,6 +609,7 @@ Note: Renovate is enabled on the repo once the GitHub App is installed at https:
 ## Task 10: GitHub Packages publish config
 
 **Files:**
+
 - Create: `.npmrc`
 
 - [ ] **Step 10.1: Write `.npmrc`**
@@ -593,6 +630,7 @@ git commit -m "chore: set @a1678991 scope to GitHub Packages registry"
 ## Task 11: CI workflow
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 - [ ] **Step 11.1: Write `.github/workflows/ci.yml`**
@@ -611,7 +649,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # commitlint needs full history
+          fetch-depth: 0 # commitlint needs full history
 
       - uses: pnpm/action-setup@v4
 
@@ -651,6 +689,7 @@ git commit -m "ci: add lint/fmt/typecheck/test/commitlint workflow"
 ## Task 12: Release workflow
 
 **Files:**
+
 - Create: `.github/workflows/release.yml`
 
 - [ ] **Step 12.1: Write `.github/workflows/release.yml`**
@@ -711,12 +750,14 @@ git commit -m "ci: add semantic-release publish workflow"
 ## Task 13: Implement `Result<T, E>`
 
 **Files:**
+
 - Create: `src/core/result.ts`
-- Test:   `tests/unit/core/result.test.ts`
+- Test: `tests/unit/core/result.test.ts`
 
 - [ ] **Step 13.1: Write failing test**
 
 Create `tests/unit/core/result.test.ts`:
+
 ```ts
 import { describe, it, expect } from "vitest";
 import { ok, err, type Result } from "../../../src/core/result.js";
@@ -735,7 +776,7 @@ describe("Result", () => {
   it("discriminates on ok at the type level", () => {
     const r: Result<number, string> = Math.random() < 2 ? ok(1) : err("x");
     if (r.ok) {
-      const n: number = r.data;       // would not compile if Result lacked discrimination
+      const n: number = r.data; // would not compile if Result lacked discrimination
       expect(n).toBe(1);
     } else {
       expect(typeof r.error).toBe("string");
@@ -747,14 +788,17 @@ describe("Result", () => {
 - [ ] **Step 13.2: Verify it fails**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/result.test.ts
 ```
+
 Expected: FAIL — `Cannot find module '../../../src/core/result.js'`.
 
 - [ ] **Step 13.3: Implement**
 
 Create `src/core/result.ts`:
+
 ```ts
 export type Ok<T> = { readonly ok: true; readonly data: T };
 export type Err<E> = { readonly ok: false; readonly error: E };
@@ -767,9 +811,11 @@ export const err = <E>(error: E): Err<E> => ({ ok: false, error });
 - [ ] **Step 13.4: Verify it passes**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/result.test.ts
 ```
+
 Expected: 3 tests pass.
 
 - [ ] **Step 13.5: Commit**
@@ -784,26 +830,29 @@ git commit -m "feat: add Result<T,E> discriminated union"
 ## Task 14: Implement `ReinfolibError`
 
 **Files:**
+
 - Create: `src/core/errors.ts`
-- Test:   `tests/unit/core/result.test.ts` (extend, no new file)
+- Test: `tests/unit/core/result.test.ts` (extend, no new file)
 
 - [ ] **Step 14.1: Implement directly (pure type definitions — no behavior to test beyond discrimination, which TS itself enforces)**
 
 Create `src/core/errors.ts`:
+
 ```ts
 import type { ZodIssue } from "zod";
 
 export type ReinfolibError =
   | { kind: "validation"; phase: "params" | "response"; issues: ZodIssue[] }
-  | { kind: "api";       status: number; body: unknown; attempts: number }
-  | { kind: "network";   cause: unknown;             attempts: number }
-  | { kind: "timeout";   timeoutMs: number;          attempts: number }
-  | { kind: "aborted";   cause: unknown };
+  | { kind: "api"; status: number; body: unknown; attempts: number }
+  | { kind: "network"; cause: unknown; attempts: number }
+  | { kind: "timeout"; timeoutMs: number; attempts: number }
+  | { kind: "aborted"; cause: unknown };
 ```
 
 - [ ] **Step 14.2: Add a discrimination test**
 
 Append to `tests/unit/core/result.test.ts`:
+
 ```ts
 import type { ReinfolibError } from "../../../src/core/errors.js";
 import { describe as describe2, it as it2, expect as expect2 } from "vitest";
@@ -824,9 +873,11 @@ describe2("ReinfolibError", () => {
 - [ ] **Step 14.3: Run tests**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/result.test.ts
 ```
+
 Expected: 4 tests pass.
 
 - [ ] **Step 14.4: Commit**
@@ -841,12 +892,14 @@ git commit -m "feat: add ReinfolibError discriminated union"
 ## Task 15: Implement Token Bucket
 
 **Files:**
+
 - Create: `src/core/rate-limit.ts`
-- Test:   `tests/unit/core/rate-limit.test.ts`
+- Test: `tests/unit/core/rate-limit.test.ts`
 
 - [ ] **Step 15.1: Write failing tests**
 
 Create `tests/unit/core/rate-limit.test.ts`:
+
 ```ts
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { TokenBucket } from "../../../src/core/rate-limit.js";
@@ -867,15 +920,17 @@ describe("TokenBucket", () => {
 
   it("waits when bucket empty, resolves after refill", async () => {
     const b = new TokenBucket({ capacity: 1, refillPerSecond: 2 });
-    await b.acquire();                  // drain
-    const p = b.acquire();              // must wait ~500ms for 1 token
+    await b.acquire(); // drain
+    const p = b.acquire(); // must wait ~500ms for 1 token
     let resolved = false;
-    p.then(() => { resolved = true; });
+    p.then(() => {
+      resolved = true;
+    });
 
     await vi.advanceTimersByTimeAsync(400);
     expect(resolved).toBe(false);
 
-    await vi.advanceTimersByTimeAsync(150);  // total 550ms — past 500
+    await vi.advanceTimersByTimeAsync(150); // total 550ms — past 500
     expect(resolved).toBe(true);
   });
 
@@ -907,14 +962,17 @@ describe("TokenBucket", () => {
 - [ ] **Step 15.2: Verify they fail**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/rate-limit.test.ts
 ```
+
 Expected: FAIL — module not found.
 
 - [ ] **Step 15.3: Implement**
 
 Create `src/core/rate-limit.ts`:
+
 ```ts
 export type TokenBucketConfig = {
   capacity: number;
@@ -1015,9 +1073,11 @@ export class TokenBucket {
 - [ ] **Step 15.4: Verify tests pass**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/rate-limit.test.ts
 ```
+
 Expected: 4 tests pass.
 
 - [ ] **Step 15.5: Commit**
@@ -1032,12 +1092,14 @@ git commit -m "feat: add token bucket rate limiter"
 ## Task 16: Implement retry with exponential backoff
 
 **Files:**
+
 - Create: `src/core/retry.ts`
-- Test:   `tests/unit/core/retry.test.ts`
+- Test: `tests/unit/core/retry.test.ts`
 
 - [ ] **Step 16.1: Write failing tests**
 
 Create `tests/unit/core/retry.test.ts`:
+
 ```ts
 import { describe, it, expect, vi } from "vitest";
 import { computeBackoffMs, parseRetryAfter, DEFAULT_RETRY } from "../../../src/core/retry.js";
@@ -1095,14 +1157,17 @@ describe("parseRetryAfter", () => {
 - [ ] **Step 16.2: Verify they fail**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/retry.test.ts
 ```
+
 Expected: FAIL — module not found.
 
 - [ ] **Step 16.3: Implement**
 
 Create `src/core/retry.ts`:
+
 ```ts
 export type Jitter = "none" | "full";
 
@@ -1170,9 +1235,11 @@ export const sleep = (ms: number, signal?: AbortSignal): Promise<void> =>
 - [ ] **Step 16.4: Verify tests pass**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/retry.test.ts
 ```
+
 Expected: 8 tests pass.
 
 - [ ] **Step 16.5: Commit**
@@ -1187,14 +1254,16 @@ git commit -m "feat: add exponential backoff with full jitter and Retry-After su
 ## Task 17: Implement core request pipeline
 
 **Files:**
+
 - Create: `src/core/request.ts`
-- Test:   `tests/unit/core/request.test.ts`
+- Test: `tests/unit/core/request.test.ts`
 
 This task ties together rate-limit, retry, fetch, zod validation, and `Result` mapping. It's the most intricate piece. Tests use a stubbed `fetch` (no `vi.useFakeTimers` — we let real `setTimeout` fire with tiny delays).
 
 - [ ] **Step 17.1: Write failing tests**
 
 Create `tests/unit/core/request.test.ts`:
+
 ```ts
 import { describe, it, expect, vi } from "vitest";
 import { z } from "zod";
@@ -1205,7 +1274,9 @@ import { DEFAULT_RETRY } from "../../../src/core/retry.js";
 const paramsSchema = z.object({ year: z.number().int() });
 const responseSchema = z.object({ ok: z.literal(true), n: z.number() });
 
-function buildArgs(overrides: Partial<RequestArgs<{ year: number }, { ok: true; n: number }>> = {}) {
+function buildArgs(
+  overrides: Partial<RequestArgs<{ year: number }, { ok: true; n: number }>> = {},
+) {
   return {
     apiKey: "test-key",
     baseUrl: "https://example.test",
@@ -1223,7 +1294,9 @@ function buildArgs(overrides: Partial<RequestArgs<{ year: number }, { ok: true; 
 
 describe("request", () => {
   it("returns ok with parsed data on 200", async () => {
-    const fetchFn = vi.fn(async () => new Response(JSON.stringify({ ok: true, n: 42 }), { status: 200 }));
+    const fetchFn = vi.fn(
+      async () => new Response(JSON.stringify({ ok: true, n: 42 }), { status: 200 }),
+    );
     const args = buildArgs({ fetch: fetchFn });
     const r = await request(args);
     expect(r.ok).toBe(true);
@@ -1249,7 +1322,10 @@ describe("request", () => {
 
   it("returns validation err on bad params (no fetch)", async () => {
     const fetchFn = vi.fn();
-    const args = buildArgs({ fetch: fetchFn, params: { year: "not a number" } as unknown as { year: number } });
+    const args = buildArgs({
+      fetch: fetchFn,
+      params: { year: "not a number" } as unknown as { year: number },
+    });
     const r = await request(args);
     expect(r.ok).toBe(false);
     if (!r.ok) {
@@ -1295,7 +1371,8 @@ describe("request", () => {
   });
 
   it("retries 503 then succeeds on second attempt", async () => {
-    const fetchFn = vi.fn()
+    const fetchFn = vi
+      .fn()
       .mockResolvedValueOnce(new Response("nope", { status: 503 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ ok: true, n: 7 })));
     const args = buildArgs({ fetch: fetchFn });
@@ -1306,7 +1383,9 @@ describe("request", () => {
   });
 
   it("returns network err with attempts on fetch reject", async () => {
-    const fetchFn = vi.fn(async () => { throw new Error("connection reset"); });
+    const fetchFn = vi.fn(async () => {
+      throw new Error("connection reset");
+    });
     const args = buildArgs({ fetch: fetchFn });
     const r = await request(args);
     expect(r.ok).toBe(false);
@@ -1335,20 +1414,29 @@ describe("request", () => {
 - [ ] **Step 17.2: Verify failure**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/request.test.ts
 ```
+
 Expected: FAIL — module not found.
 
 - [ ] **Step 17.3: Implement**
 
 Create `src/core/request.ts`:
+
 ```ts
 import type { ZodType } from "zod";
 import type { ReinfolibError } from "./errors.js";
 import { err, ok, type Result } from "./result.js";
 import type { TokenBucket } from "./rate-limit.js";
-import { DEFAULT_RETRY, computeBackoffMs, shouldRetryStatus, sleep, type RetryConfig } from "./retry.js";
+import {
+  DEFAULT_RETRY,
+  computeBackoffMs,
+  shouldRetryStatus,
+  sleep,
+  type RetryConfig,
+} from "./retry.js";
 
 export type RequestArgs<P, R> = {
   apiKey: string;
@@ -1357,7 +1445,7 @@ export type RequestArgs<P, R> = {
   params: P;
   paramsSchema: ZodType<P>;
   responseSchema: ZodType<R>;
-  bucket: TokenBucket | undefined;     // undefined = rate limit disabled
+  bucket: TokenBucket | undefined; // undefined = rate limit disabled
   retry: RetryConfig;
   timeoutMs: number;
   signal?: AbortSignal;
@@ -1465,16 +1553,24 @@ export async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R, Rei
   }
 
   // Unreachable in practice (loop always returns), but TS requires it.
-  return err(lastError ?? { kind: "network", cause: new Error("retry loop exhausted"), attempts: maxAttempts });
+  return err(
+    lastError ?? {
+      kind: "network",
+      cause: new Error("retry loop exhausted"),
+      attempts: maxAttempts,
+    },
+  );
 }
 ```
 
 - [ ] **Step 17.4: Verify tests pass**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/request.test.ts
 ```
+
 Expected: 10 tests pass.
 
 - [ ] **Step 17.5: Commit**
@@ -1489,15 +1585,24 @@ git commit -m "feat: add core request pipeline with rate-limit, retry, and zod v
 ## Task 18: Implement common param schemas
 
 **Files:**
+
 - Create: `src/core/common.ts`
-- Test:   `tests/unit/core/common.test.ts`
+- Test: `tests/unit/core/common.test.ts`
 
 - [ ] **Step 18.1: Write failing test**
 
 Create `tests/unit/core/common.test.ts`:
+
 ```ts
 import { describe, it, expect } from "vitest";
-import { prefCodeSchema, cityCodeSchema, stationCodeSchema, yearSchema, quarterSchema, languageSchema } from "../../../src/core/common.js";
+import {
+  prefCodeSchema,
+  cityCodeSchema,
+  stationCodeSchema,
+  yearSchema,
+  quarterSchema,
+  languageSchema,
+} from "../../../src/core/common.js";
 
 describe("common schemas", () => {
   it("prefCode accepts 2 digits", () => {
@@ -1543,14 +1648,17 @@ describe("common schemas", () => {
 - [ ] **Step 18.2: Verify failure**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/common.test.ts
 ```
+
 Expected: FAIL — module not found.
 
 - [ ] **Step 18.3: Implement**
 
 Create `src/core/common.ts`:
+
 ```ts
 import { z } from "zod";
 
@@ -1569,18 +1677,22 @@ export const languageSchema = z.enum(["ja", "en"]);
 
 // Comma-separated lists (e.g. multiple area codes)
 export const commaListOf = <T extends z.ZodType<string>>(item: T) =>
-  z.string().refine(
-    (v) => v.split(",").every((s) => item.safeParse(s.trim()).success),
-    "all comma-separated values must match the item schema",
-  );
+  z
+    .string()
+    .refine(
+      (v) => v.split(",").every((s) => item.safeParse(s.trim()).success),
+      "all comma-separated values must match the item schema",
+    );
 ```
 
 - [ ] **Step 18.4: Verify tests pass**
 
 Run:
+
 ```bash
 pnpm test tests/unit/core/common.test.ts
 ```
+
 Expected: 6 tests pass.
 
 - [ ] **Step 18.5: Commit**
@@ -1595,15 +1707,17 @@ git commit -m "feat: add common parameter zod schemas"
 ## Task 19: Implement `ReinfolibClient` skeleton
 
 **Files:**
+
 - Create: `src/client.ts`
 - Create: `src/index.ts`
-- Test:   `tests/unit/client.test.ts`
+- Test: `tests/unit/client.test.ts`
 
 `prices` is initialized as an empty object here; Task 20 attaches the first endpoint method.
 
 - [ ] **Step 19.1: Write failing test**
 
 Create `tests/unit/client.test.ts`:
+
 ```ts
 import { describe, it, expect } from "vitest";
 import { ReinfolibClient } from "../../src/client.js";
@@ -1633,14 +1747,17 @@ describe("ReinfolibClient", () => {
 - [ ] **Step 19.2: Verify failure**
 
 Run:
+
 ```bash
 pnpm test tests/unit/client.test.ts
 ```
+
 Expected: FAIL — module not found.
 
 - [ ] **Step 19.3: Implement**
 
 Create `src/client.ts`:
+
 ```ts
 import { TokenBucket } from "./core/rate-limit.js";
 import { DEFAULT_RETRY, type RetryConfig } from "./core/retry.js";
@@ -1691,15 +1808,24 @@ export class ReinfolibClient {
     const rl = opts.rateLimit ?? DEFAULT_RATE_LIMIT;
     this.bucket = rl === false ? undefined : new TokenBucket(rl);
 
-    this.retry = opts.retry === false ? { ...DEFAULT_RETRY, maxAttempts: 1 } : { ...DEFAULT_RETRY, ...opts.retry };
+    this.retry =
+      opts.retry === false
+        ? { ...DEFAULT_RETRY, maxAttempts: 1 }
+        : { ...DEFAULT_RETRY, ...opts.retry };
   }
 }
 ```
 
 Create `src/index.ts`:
+
 ```ts
 export { ReinfolibClient } from "./client.js";
-export type { ReinfolibClientOptions, CallOptions, RateLimitOption, RetryOption } from "./client.js";
+export type {
+  ReinfolibClientOptions,
+  CallOptions,
+  RateLimitOption,
+  RetryOption,
+} from "./client.js";
 export { ok, err } from "./core/result.js";
 export type { Result, Ok, Err } from "./core/result.js";
 export type { ReinfolibError } from "./core/errors.js";
@@ -1710,9 +1836,11 @@ export type { TokenBucketConfig } from "./core/rate-limit.js";
 - [ ] **Step 19.4: Verify tests pass**
 
 Run:
+
 ```bash
 pnpm test tests/unit/client.test.ts
 ```
+
 Expected: 4 tests pass.
 
 - [ ] **Step 19.5: Commit**
@@ -1731,6 +1859,7 @@ XIT001 = real estate transaction price information.
 **Endpoint:** `GET /ex-api/external/XIT001`
 
 **Request params** (per the API manual):
+
 - `year` (required, string `YYYY`, >= 2005; 2005 only Q3-Q4)
 - `quarter` (required, string `1`..`4`)
 - At least one of `area` (prefCode `NN`), `city` (cityCode `NNNNN`), `station` (stationCode `NNNNNN`); each may be comma-separated
@@ -1740,14 +1869,16 @@ XIT001 = real estate transaction price information.
 **Response:** JSON envelope `{ status, data: TransactionRecord[] }` (gzip-encoded on the wire; Node's fetch decodes transparently). All `data[]` fields are strings.
 
 **Files:**
+
 - Create: `src/endpoints/prices/xit001.ts`
 - Modify: `src/client.ts` — wire `prices.transactionPoints`
-- Test:   `tests/unit/endpoints/prices/xit001.test.ts`
-- Test:   `tests/fixtures/xit001.json`
+- Test: `tests/unit/endpoints/prices/xit001.test.ts`
+- Test: `tests/fixtures/xit001.json`
 
 - [ ] **Step 20.1: Capture a fixture**
 
 Run (uses the live API; requires the key from spec context):
+
 ```bash
 mkdir -p tests/fixtures
 curl --compressed -sS \
@@ -1755,15 +1886,19 @@ curl --compressed -sS \
   "https://www.reinfolib.mlit.go.jp/ex-api/external/XIT001?year=2024&quarter=2&city=13102&language=en" \
   -o tests/fixtures/xit001.json
 ```
+
 Then verify it's parseable JSON and has the expected envelope:
+
 ```bash
 node -e 'const j=require("./tests/fixtures/xit001.json"); if(!Array.isArray(j.data)) throw new Error("data missing"); console.log("records:", j.data.length, "keys:", Object.keys(j.data[0]||{}));'
 ```
+
 Expected: prints record count and the field names. If the response is empty (rare), retry with a different `city` like `13101`.
 
 - [ ] **Step 20.2: Write failing test**
 
 Create `tests/unit/endpoints/prices/xit001.test.ts`:
+
 ```ts
 import { describe, it, expect, vi } from "vitest";
 import { readFileSync } from "node:fs";
@@ -1785,18 +1920,38 @@ describe("XIT001 params schema", () => {
   });
 
   it("rejects bad year", () => {
-    expect(paramsSchema.safeParse({ year: "2004", quarter: "2", city: "13102" }).success).toBe(false);
+    expect(paramsSchema.safeParse({ year: "2004", quarter: "2", city: "13102" }).success).toBe(
+      false,
+    );
     expect(paramsSchema.safeParse({ year: "24", quarter: "2", city: "13102" }).success).toBe(false);
   });
 
   it("accepts priceClassification 01 or 02", () => {
-    expect(paramsSchema.safeParse({ year: "2024", quarter: "2", city: "13102", priceClassification: "01" }).success).toBe(true);
-    expect(paramsSchema.safeParse({ year: "2024", quarter: "2", city: "13102", priceClassification: "03" }).success).toBe(false);
+    expect(
+      paramsSchema.safeParse({
+        year: "2024",
+        quarter: "2",
+        city: "13102",
+        priceClassification: "01",
+      }).success,
+    ).toBe(true);
+    expect(
+      paramsSchema.safeParse({
+        year: "2024",
+        quarter: "2",
+        city: "13102",
+        priceClassification: "03",
+      }).success,
+    ).toBe(false);
   });
 
   it("accepts comma-separated area codes", () => {
-    expect(paramsSchema.safeParse({ year: "2024", quarter: "2", area: "13,14" }).success).toBe(true);
-    expect(paramsSchema.safeParse({ year: "2024", quarter: "2", area: "13,abc" }).success).toBe(false);
+    expect(paramsSchema.safeParse({ year: "2024", quarter: "2", area: "13,14" }).success).toBe(
+      true,
+    );
+    expect(paramsSchema.safeParse({ year: "2024", quarter: "2", area: "13,abc" }).success).toBe(
+      false,
+    );
   });
 });
 
@@ -1833,7 +1988,11 @@ describe("ReinfolibClient.prices.transactionPoints", () => {
   it("is wired and delegates to XIT001 call()", async () => {
     const fetchFn = vi.fn(async () => new Response(JSON.stringify(fixture), { status: 200 }));
     const client = new ReinfolibClient({ apiKey: "k", fetch: fetchFn, rateLimit: false });
-    const res = await client.prices.transactionPoints({ year: "2024", quarter: "2", city: "13102" });
+    const res = await client.prices.transactionPoints({
+      year: "2024",
+      quarter: "2",
+      city: "13102",
+    });
     expect(res.ok).toBe(true);
   });
 });
@@ -1842,54 +2001,67 @@ describe("ReinfolibClient.prices.transactionPoints", () => {
 - [ ] **Step 20.3: Verify failure**
 
 Run:
+
 ```bash
 pnpm test tests/unit/endpoints/prices/xit001.test.ts
 ```
+
 Expected: FAIL — module not found.
 
 - [ ] **Step 20.4: Implement the endpoint module**
 
 Create `src/endpoints/prices/xit001.ts`:
+
 ```ts
 import { z } from "zod";
-import { cityCodeSchema, commaListOf, languageSchema, prefCodeSchema, quarterSchema, stationCodeSchema, yearSchema } from "../../core/common.js";
+import {
+  cityCodeSchema,
+  commaListOf,
+  languageSchema,
+  prefCodeSchema,
+  quarterSchema,
+  stationCodeSchema,
+  yearSchema,
+} from "../../core/common.js";
 import type { ReinfolibClient, CallOptions } from "../../client.js";
 import type { ReinfolibError } from "../../core/errors.js";
 import { request } from "../../core/request.js";
 import type { Result } from "../../core/result.js";
 import { DEFAULT_RETRY } from "../../core/retry.js";
 
-const recordSchema = z.object({
-  Type: z.string().optional(),
-  Region: z.string().optional(),
-  MunicipalityCode: z.string().optional(),
-  Prefecture: z.string().optional(),
-  Municipality: z.string().optional(),
-  DistrictName: z.string().optional(),
-  TradePrice: z.string().optional(),
-  PricePerUnit: z.string().optional(),
-  FloorPlan: z.string().optional(),
-  Area: z.string().optional(),
-  UnitPrice: z.string().optional(),
-  LandShape: z.string().optional(),
-  Frontage: z.string().optional(),
-  TotalFloorArea: z.string().optional(),
-  BuildingYear: z.string().optional(),
-  Structure: z.string().optional(),
-  Use: z.string().optional(),
-  Purpose: z.string().optional(),
-  Direction: z.string().optional(),
-  Classification: z.string().optional(),
-  Breadth: z.string().optional(),
-  CityPlanning: z.string().optional(),
-  CoverageRatio: z.string().optional(),
-  FloorAreaRatio: z.string().optional(),
-  Period: z.string().optional(),
-  Renovation: z.string().optional(),
-  Remarks: z.string().optional(),
-  PriceCategory: z.string().optional(),
-  DistrictCode: z.string().optional(),
-}).passthrough();   // tolerate new fields from the API
+const recordSchema = z
+  .object({
+    Type: z.string().optional(),
+    Region: z.string().optional(),
+    MunicipalityCode: z.string().optional(),
+    Prefecture: z.string().optional(),
+    Municipality: z.string().optional(),
+    DistrictName: z.string().optional(),
+    TradePrice: z.string().optional(),
+    PricePerUnit: z.string().optional(),
+    FloorPlan: z.string().optional(),
+    Area: z.string().optional(),
+    UnitPrice: z.string().optional(),
+    LandShape: z.string().optional(),
+    Frontage: z.string().optional(),
+    TotalFloorArea: z.string().optional(),
+    BuildingYear: z.string().optional(),
+    Structure: z.string().optional(),
+    Use: z.string().optional(),
+    Purpose: z.string().optional(),
+    Direction: z.string().optional(),
+    Classification: z.string().optional(),
+    Breadth: z.string().optional(),
+    CityPlanning: z.string().optional(),
+    CoverageRatio: z.string().optional(),
+    FloorAreaRatio: z.string().optional(),
+    Period: z.string().optional(),
+    Renovation: z.string().optional(),
+    Remarks: z.string().optional(),
+    PriceCategory: z.string().optional(),
+    DistrictCode: z.string().optional(),
+  })
+  .passthrough(); // tolerate new fields from the API
 
 export const responseSchema = z.object({
   status: z.string(),
@@ -1907,10 +2079,9 @@ export const paramsSchema = z
     priceClassification: z.enum(["01", "02"]).optional(),
     language: languageSchema.optional(),
   })
-  .refine(
-    (v) => v.area !== undefined || v.city !== undefined || v.station !== undefined,
-    { message: "At least one of area, city, or station is required" },
-  );
+  .refine((v) => v.area !== undefined || v.city !== undefined || v.station !== undefined, {
+    message: "At least one of area, city, or station is required",
+  });
 export type Params = z.infer<typeof paramsSchema>;
 
 export const endpoint = { id: "XIT001", path: "/ex-api/external/XIT001" } as const;
@@ -1920,9 +2091,8 @@ export function call(
   params: Params,
   opts: CallOptions = {},
 ): Promise<Result<Response, ReinfolibError>> {
-  const retry = opts.retry === false
-    ? { ...client.retry, maxAttempts: 1 }
-    : { ...client.retry, ...opts.retry };
+  const retry =
+    opts.retry === false ? { ...client.retry, maxAttempts: 1 } : { ...client.retry, ...opts.retry };
 
   return request({
     apiKey: client.apiKey,
@@ -1944,10 +2114,13 @@ export function call(
 - [ ] **Step 20.5: Wire into the client**
 
 Modify `src/client.ts`. Replace the existing `prices` declaration:
+
 ```ts
 readonly prices: Record<string, unknown> = {};
 ```
+
 With:
+
 ```ts
 readonly prices: {
   transactionPoints: (
@@ -1958,6 +2131,7 @@ readonly prices: {
 ```
 
 And inside the constructor, after the `this.retry = ...` line, append:
+
 ```ts
 this.prices = {
   transactionPoints: (params, opts) => xit001.call(this, params, opts),
@@ -1965,6 +2139,7 @@ this.prices = {
 ```
 
 At the top of `src/client.ts`, add:
+
 ```ts
 import * as xit001 from "./endpoints/prices/xit001.js";
 ```
@@ -1972,17 +2147,21 @@ import * as xit001 from "./endpoints/prices/xit001.js";
 - [ ] **Step 20.6: Verify all tests pass**
 
 Run:
+
 ```bash
 pnpm test
 ```
+
 Expected: all tests pass (smoke + result + rate-limit + retry + request + common + client + xit001).
 
 - [ ] **Step 20.7: Typecheck**
 
 Run:
+
 ```bash
 pnpm typecheck
 ```
+
 Expected: 0 errors.
 
 - [ ] **Step 20.8: Commit**
@@ -1997,12 +2176,14 @@ git commit -m "feat(prices): add XIT001 transaction-points endpoint"
 ## Task 21: Integration test (opt-in)
 
 **Files:**
+
 - Create: `tests/integration/xit001.test.ts`
 - Create: `vitest.integration.config.ts` (separate include path)
 
 - [ ] **Step 21.1: Write the integration test**
 
 Create `tests/integration/xit001.test.ts`:
+
 ```ts
 import { describe, it, expect } from "vitest";
 import { ReinfolibClient } from "../../src/index.js";
@@ -2011,26 +2192,31 @@ const apiKey = process.env.REINFOLIB_API_KEY;
 const runIt = process.env.INTEGRATION === "1" && apiKey ? it : it.skip;
 
 describe("XIT001 — live", () => {
-  runIt("hits the real endpoint and parses the response", async () => {
-    const client = new ReinfolibClient({ apiKey: apiKey! });
-    const res = await client.prices.transactionPoints({
-      year: "2024",
-      quarter: "2",
-      city: "13102",
-      language: "en",
-    });
-    expect(res.ok).toBe(true);
-    if (res.ok) {
-      expect(res.data.status).toBeDefined();
-      expect(Array.isArray(res.data.data)).toBe(true);
-    }
-  }, 30_000);
+  runIt(
+    "hits the real endpoint and parses the response",
+    async () => {
+      const client = new ReinfolibClient({ apiKey: apiKey! });
+      const res = await client.prices.transactionPoints({
+        year: "2024",
+        quarter: "2",
+        city: "13102",
+        language: "en",
+      });
+      expect(res.ok).toBe(true);
+      if (res.ok) {
+        expect(res.data.status).toBeDefined();
+        expect(Array.isArray(res.data.data)).toBe(true);
+      }
+    },
+    30_000,
+  );
 });
 ```
 
 - [ ] **Step 21.2: Create integration vitest config**
 
 Create `vitest.integration.config.ts`:
+
 ```ts
 import { defineConfig } from "vitest/config";
 
@@ -2043,6 +2229,7 @@ export default defineConfig({
 ```
 
 Modify `package.json` `scripts.test:integration` to:
+
 ```json
 "test:integration": "INTEGRATION=1 vitest run --config vitest.integration.config.ts"
 ```
@@ -2050,18 +2237,22 @@ Modify `package.json` `scripts.test:integration` to:
 - [ ] **Step 21.3: Verify it skips without env**
 
 Run:
+
 ```bash
 pnpm exec vitest run --config vitest.integration.config.ts
 ```
+
 Expected: 1 skipped (since `INTEGRATION` is unset).
 
 - [ ] **Step 21.4: (Manual) Verify it passes with env**
 
 Run (manual — do not bake the key into CI):
+
 ```bash
 INTEGRATION=1 REINFOLIB_API_KEY=YOUR_API_KEY \
   pnpm exec vitest run --config vitest.integration.config.ts
 ```
+
 Expected: 1 test passes.
 
 - [ ] **Step 21.5: Commit**
@@ -2076,11 +2267,13 @@ git commit -m "test: add opt-in XIT001 integration test"
 ## Task 22: Write README
 
 **Files:**
+
 - Modify: `README.md`
 
 - [ ] **Step 22.1: Replace the stub README**
 
 Overwrite `README.md`:
+
 ````markdown
 # @a1678991/reinfolib
 
@@ -2103,10 +2296,12 @@ pnpm add @a1678991/reinfolib
 ### Authenticating to GitHub Packages
 
 Add to your project's `.npmrc`:
+
 ```
 @a1678991:registry=https://npm.pkg.github.com/
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
+
 Where `GITHUB_TOKEN` is a personal access token with `read:packages`.
 
 ## Quickstart
@@ -2141,24 +2336,25 @@ for (const record of res.data.data) {
 ```ts
 new ReinfolibClient({
   apiKey: "...",
-  baseUrl: "https://www.reinfolib.mlit.go.jp",   // override for testing
+  baseUrl: "https://www.reinfolib.mlit.go.jp", // override for testing
   timeoutMs: 30_000,
   userAgent: "my-app/1.0",
 
-  rateLimit: { capacity: 10, refillPerSecond: 5 },   // or `false` to disable
+  rateLimit: { capacity: 10, refillPerSecond: 5 }, // or `false` to disable
   retry: {
     maxAttempts: 4,
     baseDelayMs: 500,
     maxDelayMs: 30_000,
-    jitter: "full",                                  // or "none"
+    jitter: "full", // or "none"
     retryOn: [408, 425, 429, 500, 502, 503, 504],
-  },                                                  // or `false` to disable
+  }, // or `false` to disable
 
-  fetch: globalThis.fetch,                            // override for tests
+  fetch: globalThis.fetch, // override for tests
 });
 ```
 
 Per-call overrides:
+
 ```ts
 const ac = new AbortController();
 await client.prices.transactionPoints(params, {
@@ -2173,10 +2369,10 @@ await client.prices.transactionPoints(params, {
 ```ts
 type ReinfolibError =
   | { kind: "validation"; phase: "params" | "response"; issues: ZodIssue[] }
-  | { kind: "api";       status: number; body: unknown; attempts: number }
-  | { kind: "network";   cause: unknown;             attempts: number }
-  | { kind: "timeout";   timeoutMs: number;          attempts: number }
-  | { kind: "aborted";   cause: unknown };
+  | { kind: "api"; status: number; body: unknown; attempts: number }
+  | { kind: "network"; cause: unknown; attempts: number }
+  | { kind: "timeout"; timeoutMs: number; attempts: number }
+  | { kind: "aborted"; cause: unknown };
 ```
 
 ## Development
@@ -2190,6 +2386,7 @@ pnpm build
 ```
 
 Live integration test (uses your real API key):
+
 ```bash
 INTEGRATION=1 REINFOLIB_API_KEY=... pnpm test:integration
 ```
@@ -2215,6 +2412,7 @@ This task only documents what's required externally — there's no code to write
 - [ ] **Step 23.1: Push to GitHub**
 
 Run (after creating the empty repo at https://github.com/a1678991/reinfolib):
+
 ```bash
 git remote add origin https://github.com/a1678991/reinfolib.git
 git push -u origin main
@@ -2223,6 +2421,7 @@ git push -u origin main
 - [ ] **Step 23.2: Watch the Release workflow**
 
 Go to https://github.com/a1678991/reinfolib/actions, find the `Release` run. It should:
+
 1. Lint, typecheck, test, build.
 2. semantic-release analyzes all commits since (no previous tag) — every `feat:` commit triggers a minor bump from `1.0.0` baseline (per semantic-release default for no-tag state, it starts at `1.0.0`).
 3. Publish `@a1678991/reinfolib@1.0.0` to GitHub Packages.
@@ -2234,9 +2433,11 @@ Note: semantic-release with no previous tags publishes as `1.0.0` by default. If
 - [ ] **Step 23.3: Verify the published package**
 
 Run:
+
 ```bash
 npm view @a1678991/reinfolib --registry=https://npm.pkg.github.com/
 ```
+
 Expected: shows the published version, dist-tags, etc. (Requires `NPM_TOKEN` env set to a GH token with `read:packages` if the repo is private.)
 
 - [ ] **Step 23.4: Install Renovate on the repo**
@@ -2248,6 +2449,7 @@ Visit https://github.com/apps/renovate, install on `a1678991/reinfolib`. The fir
 ## Self-Review
 
 **Spec coverage:**
+
 - §1 Purpose, §2 Scope (JSON-only subset): Task 20 (XIT001 reference endpoint). GIS endpoints + GeoJSON/PBF explicitly deferred to Plan 2 in plan front-matter. ✓
 - §3 Toolchain: Tasks 2-8 install and configure every tool. ✓
 - §4 Repository Layout: Tasks 1, 5-12, 19-21 create every file shown in the layout (minus the deferred GIS bits). ✓
@@ -2265,6 +2467,7 @@ Visit https://github.com/apps/renovate, install on `a1678991/reinfolib`. The fir
 **Placeholder scan:** No "TBD" / "implement later" / "add appropriate error handling" / "similar to Task N". Code blocks present for every implementation step. Commands have expected output.
 
 **Type consistency check:**
+
 - `ReinfolibError` definition (Task 14) is used in `request.ts` (Task 17) and `xit001.ts` (Task 20). Field names (`attempts`, `phase`, `issues`, `status`, `body`, `cause`, `timeoutMs`) match across all uses. ✓
 - `Result<T, E>` shape (`{ ok, data }` / `{ ok, error }`) consistent in tests and implementations. ✓
 - `RetryConfig` and `DEFAULT_RETRY` imported the same way everywhere. ✓

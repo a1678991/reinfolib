@@ -17,16 +17,17 @@ Reference: https://www.reinfolib.mlit.go.jp/help/apiManual/
 
 All 31 endpoints, grouped into 6 categories:
 
-| Category | Endpoints |
-|---|---|
-| `prices` | XIT001, XCT001, XPT001, XPT002 |
-| `municipalities` | XIT002 |
-| `urbanPlanning` | XKT001, XKT002, XKT003, XKT014, XKT023, XKT024, XKT030 |
-| `facilities` | XKT004, XKT005, XKT006, XKT007, XKT010, XKT011, XKT017, XKT018, XKT019 |
-| `demographics` | XKT013, XKT015, XKT031 |
-| `disaster` | XKT016, XKT020, XKT021, XKT022, XKT025, XKT026, XKT027, XKT028, XKT029, XGT001, XST001 |
+| Category         | Endpoints                                                                              |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| `prices`         | XIT001, XCT001, XPT001, XPT002                                                         |
+| `municipalities` | XIT002                                                                                 |
+| `urbanPlanning`  | XKT001, XKT002, XKT003, XKT014, XKT023, XKT024, XKT030                                 |
+| `facilities`     | XKT004, XKT005, XKT006, XKT007, XKT010, XKT011, XKT017, XKT018, XKT019                 |
+| `demographics`   | XKT013, XKT015, XKT031                                                                 |
+| `disaster`       | XKT016, XKT020, XKT021, XKT022, XKT025, XKT026, XKT027, XKT028, XKT029, XGT001, XST001 |
 
 Both output formats are supported:
+
 - `format=geojson` (default where available) — parsed FeatureCollection, zod-validated.
 - `format=pbf` — raw `Uint8Array`, passed through unmodified. No PBF decoder dependency.
 
@@ -40,29 +41,30 @@ Both output formats are supported:
 
 ## 3. Toolchain
 
-| Concern | Tool | Version |
-|---|---|---|
-| Language | TypeScript | `^6.0.3` |
-| Runtime types | zod | `^4.4.3` |
-| Package manager | pnpm | (repo standard) |
-| Linter | oxlint | `^1.67.0` |
-| Formatter | oxfmt | `~0.52.0` (pinned tight; pre-1.0) |
-| Test runner | vitest | `^4.1.7` |
-| Release | semantic-release | `^25.0.3` |
-| └ commit-analyzer |  | `^13.0.1` |
-| └ release-notes-generator |  | `^14.1.1` |
-| └ changelog |  | `^6.0.3` |
-| └ npm |  | `^13.1.5` |
-| └ github |  | `^12.0.8` |
-| └ git |  | `^10.0.1` |
-| Commit lint | @commitlint/cli + config-conventional | `^21.0.1` |
-| Git hooks | lefthook | `^2.1.8` |
-| Dependency updates | Renovate | (GitHub App) |
-| Registry | GitHub Packages | `https://npm.pkg.github.com/` |
+| Concern                   | Tool                                  | Version                           |
+| ------------------------- | ------------------------------------- | --------------------------------- |
+| Language                  | TypeScript                            | `^6.0.3`                          |
+| Runtime types             | zod                                   | `^4.4.3`                          |
+| Package manager           | pnpm                                  | (repo standard)                   |
+| Linter                    | oxlint                                | `^1.67.0`                         |
+| Formatter                 | oxfmt                                 | `~0.52.0` (pinned tight; pre-1.0) |
+| Test runner               | vitest                                | `^4.1.7`                          |
+| Release                   | semantic-release                      | `^25.0.3`                         |
+| └ commit-analyzer         |                                       | `^13.0.1`                         |
+| └ release-notes-generator |                                       | `^14.1.1`                         |
+| └ changelog               |                                       | `^6.0.3`                          |
+| └ npm                     |                                       | `^13.1.5`                         |
+| └ github                  |                                       | `^12.0.8`                         |
+| └ git                     |                                       | `^10.0.1`                         |
+| Commit lint               | @commitlint/cli + config-conventional | `^21.0.1`                         |
+| Git hooks                 | lefthook                              | `^2.1.8`                          |
+| Dependency updates        | Renovate                              | (GitHub App)                      |
+| Registry                  | GitHub Packages                       | `https://npm.pkg.github.com/`     |
 
 All versions verified against the npm registry on 2026-05-26.
 
 Rationale notes:
+
 - **TypeScript 6** is GA (npm `latest`). Native ESM emit, no CJS shim required.
 - **oxfmt is pre-1.0**; output format may shift between minor versions. Pin to `~0.52.0` to avoid CI churn; bump deliberately.
 - **lefthook** chosen over husky: single Go binary, faster, declarative YAML config, no node-side scripts in `.husky/`.
@@ -133,33 +135,38 @@ const client = new ReinfolibClient({
     jitter: "full",
     retryOn: [408, 425, 429, 500, 502, 503, 504],
   },
-  fetch: globalThis.fetch,            // override for tests
+  fetch: globalThis.fetch, // override for tests
 });
 
 // GeoJSON
 const res = await client.prices.transactionPoints({
-  year: 2024, quarter: 3, prefCode: "13", z: 13, x: 7314, y: 3225,
+  year: 2024,
+  quarter: 3,
+  prefCode: "13",
+  z: 13,
+  x: 7314,
+  y: 3225,
 });
 if (!res.ok) {
   // res.error: ReinfolibError discriminated union
   return;
 }
-res.data;  // FeatureCollection<Point, ZTransactionProps> — inferred from zod
+res.data; // FeatureCollection<Point, ZTransactionProps> — inferred from zod
 
 // PBF passthrough
-const tile = await client.urbanPlanning.zoning(
-  { z: 13, x: 7314, y: 3225 },
-  { format: "pbf" },
-);
-if (tile.ok) tile.data;  // Uint8Array
+const tile = await client.urbanPlanning.zoning({ z: 13, x: 7314, y: 3225 }, { format: "pbf" });
+if (tile.ok) tile.data; // Uint8Array
 
 // Per-request overrides
 const ac = new AbortController();
-await client.disaster.floods({ z:13, x:7314, y:3225 }, {
-  signal: ac.signal,
-  timeoutMs: 5_000,
-  retry: { maxAttempts: 1 },          // disable retry for this call
-});
+await client.disaster.floods(
+  { z: 13, x: 7314, y: 3225 },
+  {
+    signal: ac.signal,
+    timeoutMs: 5_000,
+    retry: { maxAttempts: 1 }, // disable retry for this call
+  },
+);
 ```
 
 Category accessors on the client: `prices`, `municipalities`, `urbanPlanning`, `facilities`, `demographics`, `disaster`. Each is a thin object whose methods delegate to the corresponding per-endpoint module.
@@ -184,8 +191,7 @@ type RequestArgs<P, R> = {
   };
 };
 
-async function request<P, R>(a: RequestArgs<P, R>):
-  Promise<Result<R | Uint8Array, ReinfolibError>>;
+async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R | Uint8Array, ReinfolibError>>;
 ```
 
 Pipeline order:
@@ -226,10 +232,10 @@ Pipeline order:
 ```ts
 export type ReinfolibError =
   | { kind: "validation"; phase: "params" | "response"; issues: z.ZodIssue[] }
-  | { kind: "api";       status: number; body: unknown; attempts: number }
-  | { kind: "network";   cause: unknown;             attempts: number }
-  | { kind: "timeout";   timeoutMs: number;          attempts: number }
-  | { kind: "aborted";   cause: unknown };
+  | { kind: "api"; status: number; body: unknown; attempts: number }
+  | { kind: "network"; cause: unknown; attempts: number }
+  | { kind: "timeout"; timeoutMs: number; attempts: number }
+  | { kind: "aborted"; cause: unknown };
 ```
 
 `attempts` reflects total attempts made (including the failing one) — useful for telemetry and tests.
@@ -281,7 +287,7 @@ import * as transactionPoints from "./endpoints/prices/xit001.js";
 class ReinfolibClient {
   readonly prices = {
     transactionPoints: (p, o?) => transactionPoints.call(this, p, o),
-    appraisalReports:  (p, o?) => appraisalReports.call(this, p, o),
+    appraisalReports: (p, o?) => appraisalReports.call(this, p, o),
     // ...
   };
   // ...
@@ -297,11 +303,13 @@ Generic `FeatureCollectionSchema<G, P>(geometry, props)` produces:
 ```ts
 z.object({
   type: z.literal("FeatureCollection"),
-  features: z.array(z.object({
-    type: z.literal("Feature"),
-    geometry: geometry,                 // PointGeometry | PolygonGeometry | ...
-    properties: props,
-  })),
+  features: z.array(
+    z.object({
+      type: z.literal("Feature"),
+      geometry: geometry, // PointGeometry | PolygonGeometry | ...
+      properties: props,
+    }),
+  ),
 });
 ```
 
@@ -309,11 +317,11 @@ Plus prebuilt geometry schemas: `PointGeometry`, `LineStringGeometry`, `PolygonG
 
 ## 9. Testing Strategy
 
-| Layer | Tool | When it runs |
-|---|---|---|
-| Unit | vitest + mocked `fetch` | every PR / CI |
-| Integration | vitest + live API | opt-in (`INTEGRATION=1`) and nightly cron (optional) |
-| Fixtures | committed JSON + PBF | source of truth for unit tests |
+| Layer       | Tool                    | When it runs                                         |
+| ----------- | ----------------------- | ---------------------------------------------------- |
+| Unit        | vitest + mocked `fetch` | every PR / CI                                        |
+| Integration | vitest + live API       | opt-in (`INTEGRATION=1`) and nightly cron (optional) |
+| Fixtures    | committed JSON + PBF    | source of truth for unit tests                       |
 
 ### Unit tests
 
@@ -325,6 +333,7 @@ Each endpoint module has a sibling `*.test.ts`:
 4. **Format branching** — `format: "pbf"` returns `Uint8Array`; default returns parsed object.
 
 Core tests cover the pipeline mechanics:
+
 - Token bucket: burst drains, refill rate, FIFO ordering, abort.
 - Retry: exponential delays, jitter range, `retryOn` filter, `Retry-After` honored, validation errors never retry, max attempts respected, `attempts` counter accurate.
 
@@ -341,6 +350,7 @@ Live calls behind `INTEGRATION=1 pnpm test`. They only assert response **shape**
 ### `ci.yml` (PR + push)
 
 Jobs (parallel where possible):
+
 1. `lint` — `pnpm oxlint`
 2. `format` — `pnpm oxfmt --check`
 3. `typecheck` — `pnpm tsc --noEmit`
@@ -373,10 +383,13 @@ export default {
     ["@semantic-release/changelog", { changelogFile: "CHANGELOG.md" }],
     ["@semantic-release/npm", { npmPublish: true }],
     "@semantic-release/github",
-    ["@semantic-release/git", {
-      assets: ["CHANGELOG.md", "package.json", "pnpm-lock.yaml"],
-      message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
-    }],
+    [
+      "@semantic-release/git",
+      {
+        assets: ["CHANGELOG.md", "package.json", "pnpm-lock.yaml"],
+        message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+      },
+    ],
   ],
   tagFormat: "v${version}",
 };
@@ -397,7 +410,7 @@ export default {
 export default {
   extends: ["@commitlint/config-conventional"],
   rules: {
-    "subject-case": [0],   // matches the sister `website` project: don't fight sentence case
+    "subject-case": [0], // matches the sister `website` project: don't fight sentence case
   },
 };
 ```
@@ -461,6 +474,7 @@ Renovate (GitHub App, free for OSS) opens PRs for dep updates. Config mirrors th
 ```
 
 What this gives us:
+
 - **`config:best-practices`** — Renovate's recommended preset: includes `:dependencyDashboard`, semantic-prefixed commits compatible with our commitlint config, sane grouping for related deps (e.g. all `@semantic-release/*` together, all `@commitlint/*` together), and `prHourlyLimit`/`prConcurrentLimit` to keep the PR queue manageable.
 - **`:semanticCommits`** — every Renovate PR uses conventional-commit subjects (`chore(deps): ...`, `fix(deps): ...`). Required because main is gated by commitlint.
 - **Vulnerability alerts** — `osvVulnerabilityAlerts: true` + the `security` label preset open immediate PRs for advisories, bypassing the weekly schedule.
