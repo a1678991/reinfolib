@@ -8,6 +8,9 @@
     "noEmit": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
+    "paths": {
+      "@a1678991/reinfolib": ["./src/index.js"]
+    },
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
@@ -16,5 +19,5 @@
     "noImplicitOverride": true,
     "exactOptionalPropertyTypes": true
   },
-  "include": ["src/**/*", "tests/**/*", "*.config.mjs", "*.config.ts"]
+  "include": ["src/**/*", "tests/**/*", "examples/**/*", "*.config.mjs", "*.config.ts"]
 }
