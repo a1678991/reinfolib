@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { ok, err, type Result } from "../../../src/core/result.js";
+import type { ReinfolibError } from "../../../src/core/errors.js";
 
 describe("Result", () => {
   it("ok() produces a success variant", () => {
@@ -19,6 +20,18 @@ describe("Result", () => {
       expect(n).toBe(1);
     } else {
       expect(typeof r.error).toBe("string");
+    }
+  });
+});
+
+describe("ReinfolibError", () => {
+  it("discriminates by kind", () => {
+    const e: ReinfolibError = { kind: "timeout", timeoutMs: 1000, attempts: 2 };
+    if (e.kind === "timeout") {
+      const ms: number = e.timeoutMs;
+      const a: number = e.attempts;
+      expect(ms).toBe(1000);
+      expect(a).toBe(2);
     }
   });
 });
