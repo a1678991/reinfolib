@@ -6,3 +6,5 @@ coverage
 .env
 .env.local
 .husky-disabled
+mise.local.toml
+.mise.local.toml

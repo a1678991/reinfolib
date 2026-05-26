@@ -15,6 +15,13 @@ pre-commit:
       run: pnpm oxfmt --check {staged_files}
     - name: typecheck
       run: pnpm typecheck
+    - name: lint GitHub Actions
+      glob: ".github/**/*.{yaml,yml}"
+      run: mise run actions:lint
+    - name: lock mise tools
+      glob: "mise.toml"
+      run: mise lock
+      stage_fixed: true
 
 pre-push:
   parallel: true

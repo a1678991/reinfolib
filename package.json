@@ -49,8 +49,7 @@
     "test:watch": "vitest",
     "test:integration": "INTEGRATION=1 vitest run --config vitest.integration.config.ts",
     "commitlint": "commitlint --edit",
-    "release": "semantic-release",
-    "prepare": "lefthook install"
+    "release": "semantic-release"
   },
   "dependencies": {
     "zod": "^4.4.3"
@@ -65,7 +64,6 @@
     "@semantic-release/npm": "^13.1.5",
     "@semantic-release/release-notes-generator": "^14.1.1",
     "@types/node": "^25.9.1",
-    "lefthook": "^2.1.8",
     "oxfmt": "~0.52.0",
     "oxlint": "^1.67.0",
     "semantic-release": "^25.0.3",
