@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/a1678991/reinfolib/compare/v1.0.0...v1.1.0) (2026-05-26)
+
+
+### Features
+
+* **examples:** add CLI demo querying XIT001 transaction prices ([#1](https://github.com/a1678991/reinfolib/issues/1)) ([2f971bc](https://github.com/a1678991/reinfolib/commit/2f971bc2a1f9e5d9a35089293bc551ae0a266a9e))
+
 # 1.0.0 (2026-05-26)
 
 
