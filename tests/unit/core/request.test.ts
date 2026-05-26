@@ -141,4 +141,29 @@ describe("request", () => {
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.error.kind).toBe("aborted");
   });
+
+  it("returns aborted when caller signal fires during backoff", async () => {
+    // First response is a 503 — request will retry after backoff.
+    // We abort during the sleep, so the sleep promise rejects with the signal reason.
+    // request() must catch this and return err({kind:"aborted"}), not throw.
+    const fetchFn = vi.fn().mockResolvedValueOnce(new Response("nope", { status: 503 }));
+    const ac = new AbortController();
+    const args = buildArgs({
+      fetch: fetchFn,
+      signal: ac.signal,
+      retry: {
+        ...DEFAULT_RETRY,
+        baseDelayMs: 200,
+        maxDelayMs: 1000,
+        maxAttempts: 3,
+        jitter: "none",
+      },
+    });
+    const p = request(args);
+    // First call resolves with 503; then request enters sleep(200ms). Abort during that.
+    setTimeout(() => ac.abort(new Error("cancel during backoff")), 50);
+    const r = await p;
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.error.kind).toBe("aborted");
+  });
 });

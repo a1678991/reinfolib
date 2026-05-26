@@ -80,7 +80,11 @@ export async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R, Rei
         lastError = { kind: "network", cause, attempts: attempt };
       }
       if (attempt < maxAttempts) {
-        await sleep(computeBackoffMs(attempt, a.retry, undefined), a.signal);
+        try {
+          await sleep(computeBackoffMs(attempt, a.retry, undefined), a.signal);
+        } catch (cause) {
+          return err({ kind: "aborted", cause });
+        }
         continue;
       }
       return err(lastError);
@@ -92,7 +96,11 @@ export async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R, Rei
     if (!res.ok) {
       if (shouldRetryStatus(res.status, a.retry) && attempt < maxAttempts) {
         const retryAfter = res.headers.get("Retry-After") ?? undefined;
-        await sleep(computeBackoffMs(attempt, a.retry, retryAfter), a.signal);
+        try {
+          await sleep(computeBackoffMs(attempt, a.retry, retryAfter), a.signal);
+        } catch (cause) {
+          return err({ kind: "aborted", cause });
+        }
         continue;
       }
       let body: unknown;
