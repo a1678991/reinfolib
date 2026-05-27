@@ -13,25 +13,25 @@ importers:
         version: 4.4.3
     devDependencies:
       '@commitlint/cli':
-        specifier: ^21.0.1
+        specifier: 21.0.1
         version: 21.0.1(@types/node@25.9.1)(conventional-commits-parser@6.4.0)(typescript@6.0.3)
       '@commitlint/config-conventional':
-        specifier: ^21.0.1
+        specifier: 21.0.1
         version: 21.0.1
       '@types/node':
-        specifier: ^25.9.1
+        specifier: 25.9.1
         version: 25.9.1
       oxfmt:
-        specifier: ~0.52.0
+        specifier: 0.52.0
         version: 0.52.0
       oxlint:
-        specifier: ^1.67.0
+        specifier: 1.67.0
         version: 1.67.0
       typescript:
-        specifier: ^6.0.3
+        specifier: 6.0.3
         version: 6.0.3
       vitest:
-        specifier: ^4.1.7
+        specifier: 4.1.7
         version: 4.1.7(@types/node@25.9.1)(vite@8.0.14(@types/node@25.9.1)(jiti@2.6.1))
 
 packages:
