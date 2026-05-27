@@ -51,7 +51,11 @@
     "commitlint": "commitlint --edit",
     "release": "semantic-release",
     "example:prices": "pnpm build && node --experimental-strip-types examples/quote-prices.ts",
-    "example:zoning": "pnpm build && node --experimental-strip-types examples/quote-zoning.ts"
+    "example:zoning": "pnpm build && node --experimental-strip-types examples/quote-zoning.ts",
+    "example:appraisals": "pnpm build && node --experimental-strip-types examples/quote-appraisals.ts",
+    "example:price-tiles": "pnpm build && node --experimental-strip-types examples/quote-price-tiles.ts",
+    "example:land-prices": "pnpm build && node --experimental-strip-types examples/quote-land-prices.ts",
+    "example:municipalities": "pnpm build && node --experimental-strip-types examples/list-municipalities.ts"
   },
   "dependencies": {
     "zod": "^4.4.3"

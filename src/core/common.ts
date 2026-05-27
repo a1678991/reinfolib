@@ -24,3 +24,8 @@ export const commaListOf = <T extends z.ZodType<string>>(item: T) =>
 
 export const zoomSchema = z.number().int().min(11).max(15);
 export const tileCoordSchema = z.number().int().nonnegative();
+
+export const responseFormatSchema = z.enum(["geojson", "pbf"]);
+
+export const withResponseFormat = <T extends z.ZodRawShape>(schema: z.ZodObject<T>) =>
+  schema.extend({ response_format: responseFormatSchema });

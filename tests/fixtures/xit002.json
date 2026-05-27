@@ -1,0 +1,253 @@
+{
+  "status": "OK",
+  "data": [
+    {
+      "id": "13101",
+      "name": "Chiyoda Ward"
+    },
+    {
+      "id": "13102",
+      "name": "Chuo Ward"
+    },
+    {
+      "id": "13103",
+      "name": "Minato Ward"
+    },
+    {
+      "id": "13104",
+      "name": "Shinjuku Ward"
+    },
+    {
+      "id": "13105",
+      "name": "Bunkyo Ward"
+    },
+    {
+      "id": "13106",
+      "name": "Taito Ward"
+    },
+    {
+      "id": "13107",
+      "name": "Sumida Ward"
+    },
+    {
+      "id": "13108",
+      "name": "Koto Ward"
+    },
+    {
+      "id": "13109",
+      "name": "Shinagawa Ward"
+    },
+    {
+      "id": "13110",
+      "name": "Meguro Ward"
+    },
+    {
+      "id": "13111",
+      "name": "Ota Ward"
+    },
+    {
+      "id": "13112",
+      "name": "Setagaya Ward"
+    },
+    {
+      "id": "13113",
+      "name": "Shibuya Ward"
+    },
+    {
+      "id": "13114",
+      "name": "Nakano Ward"
+    },
+    {
+      "id": "13115",
+      "name": "Suginami Ward"
+    },
+    {
+      "id": "13116",
+      "name": "Toshima Ward"
+    },
+    {
+      "id": "13117",
+      "name": "Kita Ward"
+    },
+    {
+      "id": "13118",
+      "name": "Arakawa Ward"
+    },
+    {
+      "id": "13119",
+      "name": "Itabashi Ward"
+    },
+    {
+      "id": "13120",
+      "name": "Nerima Ward"
+    },
+    {
+      "id": "13121",
+      "name": "Adachi Ward"
+    },
+    {
+      "id": "13122",
+      "name": "Katsushika Ward"
+    },
+    {
+      "id": "13123",
+      "name": "Edogawa Ward"
+    },
+    {
+      "id": "13201",
+      "name": "Hachioji City"
+    },
+    {
+      "id": "13202",
+      "name": "Tachikawa City"
+    },
+    {
+      "id": "13203",
+      "name": "Musashino City"
+    },
+    {
+      "id": "13204",
+      "name": "Mitaka City"
+    },
+    {
+      "id": "13205",
+      "name": "Oume City"
+    },
+    {
+      "id": "13206",
+      "name": "Fuchu City"
+    },
+    {
+      "id": "13207",
+      "name": "Akishima City"
+    },
+    {
+      "id": "13208",
+      "name": "Chofu City"
+    },
+    {
+      "id": "13209",
+      "name": "Machida City"
+    },
+    {
+      "id": "13210",
+      "name": "Koganei City"
+    },
+    {
+      "id": "13211",
+      "name": "Kodaira City"
+    },
+    {
+      "id": "13212",
+      "name": "Hino City"
+    },
+    {
+      "id": "13213",
+      "name": "Higashimurayama City"
+    },
+    {
+      "id": "13214",
+      "name": "Kokubunji City"
+    },
+    {
+      "id": "13215",
+      "name": "Kunitachi City"
+    },
+    {
+      "id": "13218",
+      "name": "Fussa City"
+    },
+    {
+      "id": "13219",
+      "name": "Komae City"
+    },
+    {
+      "id": "13220",
+      "name": "Higashiyamato City"
+    },
+    {
+      "id": "13221",
+      "name": "Kiyose City"
+    },
+    {
+      "id": "13222",
+      "name": "Higashikurume City"
+    },
+    {
+      "id": "13223",
+      "name": "Musashimurayama City"
+    },
+    {
+      "id": "13224",
+      "name": "Tama City"
+    },
+    {
+      "id": "13225",
+      "name": "Inagi City"
+    },
+    {
+      "id": "13227",
+      "name": "Hamura City"
+    },
+    {
+      "id": "13228",
+      "name": "Akiruno City"
+    },
+    {
+      "id": "13229",
+      "name": "Nishitokyo City"
+    },
+    {
+      "id": "13303",
+      "name": "Mizuho Town"
+    },
+    {
+      "id": "13305",
+      "name": "Hinode Town"
+    },
+    {
+      "id": "13307",
+      "name": "Hinohara Village"
+    },
+    {
+      "id": "13308",
+      "name": "Okutama Town"
+    },
+    {
+      "id": "13361",
+      "name": "Oshima Town"
+    },
+    {
+      "id": "13362",
+      "name": "Toshima Village"
+    },
+    {
+      "id": "13363",
+      "name": "Niijima Village"
+    },
+    {
+      "id": "13364",
+      "name": "Kozushima Village"
+    },
+    {
+      "id": "13381",
+      "name": "Miyake Village"
+    },
+    {
+      "id": "13382",
+      "name": "Mikurajima Village"
+    },
+    {
+      "id": "13401",
+      "name": "Hachijo Town"
+    },
+    {
+      "id": "13402",
+      "name": "Aogashima Village"
+    },
+    {
+      "id": "13421",
+      "name": "Ogasawara Village"
+    }
+  ]
+}

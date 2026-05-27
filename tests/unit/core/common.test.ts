@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { z } from "zod";
 import {
   prefCodeSchema,
   cityCodeSchema,
@@ -8,6 +9,8 @@ import {
   languageSchema,
   zoomSchema,
   tileCoordSchema,
+  responseFormatSchema,
+  withResponseFormat,
 } from "../../../src/core/common.js";
 
 describe("common schemas", () => {
@@ -52,7 +55,7 @@ describe("common schemas", () => {
 
 describe("ztile schemas", () => {
   it("zoom accepts 11..15", () => {
-    for (const z of [11, 12, 13, 14, 15]) expect(zoomSchema.safeParse(z).success).toBe(true);
+    for (const zoom of [11, 12, 13, 14, 15]) expect(zoomSchema.safeParse(zoom).success).toBe(true);
     expect(zoomSchema.safeParse(10).success).toBe(false);
     expect(zoomSchema.safeParse(16).success).toBe(false);
     expect(zoomSchema.safeParse(13.5).success).toBe(false);
@@ -63,5 +66,38 @@ describe("ztile schemas", () => {
     expect(tileCoordSchema.safeParse(14626).success).toBe(true);
     expect(tileCoordSchema.safeParse(-1).success).toBe(false);
     expect(tileCoordSchema.safeParse(1.5).success).toBe(false);
+  });
+});
+
+describe("responseFormatSchema", () => {
+  it("accepts geojson and pbf", () => {
+    expect(responseFormatSchema.safeParse("geojson").success).toBe(true);
+    expect(responseFormatSchema.safeParse("pbf").success).toBe(true);
+  });
+  it("rejects other values", () => {
+    expect(responseFormatSchema.safeParse("xml").success).toBe(false);
+    expect(responseFormatSchema.safeParse("").success).toBe(false);
+  });
+});
+
+describe("withResponseFormat", () => {
+  const base = z.object({ z: z.number(), x: z.number(), y: z.number() });
+
+  it("extends the schema with response_format", () => {
+    const extended = withResponseFormat(base);
+    expect(extended.safeParse({ z: 14, x: 1, y: 1, response_format: "geojson" }).success).toBe(
+      true,
+    );
+    expect(extended.safeParse({ z: 14, x: 1, y: 1, response_format: "pbf" }).success).toBe(true);
+  });
+
+  it("rejects invalid response_format", () => {
+    const extended = withResponseFormat(base);
+    expect(extended.safeParse({ z: 14, x: 1, y: 1, response_format: "xml" }).success).toBe(false);
+  });
+
+  it("requires response_format (no default)", () => {
+    const extended = withResponseFormat(base);
+    expect(extended.safeParse({ z: 14, x: 1, y: 1 }).success).toBe(false);
   });
 });

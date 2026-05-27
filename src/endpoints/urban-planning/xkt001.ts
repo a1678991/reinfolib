@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { tileCoordSchema, zoomSchema } from "../../core/common.js";
+import { tileCoordSchema, zoomSchema, withResponseFormat } from "../../core/common.js";
 import {
   FeatureCollectionSchema,
   MultiPolygonGeometry,
@@ -69,12 +69,7 @@ export function call(
     baseUrl: client.baseUrl,
     path: endpoint.path,
     params: apiParams,
-    paramsSchema: z.object({
-      z: zoomSchema,
-      x: tileCoordSchema,
-      y: tileCoordSchema,
-      response_format: z.enum(["geojson", "pbf"]),
-    }),
+    paramsSchema: withResponseFormat(paramsSchema),
     responseSchema,
     bucket: client.bucket,
     retry,

@@ -7,7 +7,7 @@ TypeScript client for the [MLIT 不動産情報ライブラリ (Real Estate Info
 - Built-in **configurable token-bucket rate limiting** and **retry with exponential backoff + full jitter** (honors `Retry-After`).
 - Node.js 24+, ESM only.
 
-> **v1.2.0** ships XIT001 (prices) and XKT001 (urban-planning zoning) — the GIS architecture is now live. Remaining 29 endpoints land in v1.3.0+.
+> **v1.3.0** completes the `prices` category (XIT001, XCT001, XPT001, XPT002) and adds the `municipalities` category (XIT002). Remaining 25 endpoints land in v1.4.0+.
 
 ## Install
 
@@ -54,6 +54,17 @@ for (const record of res.data.data) {
 }
 ```
 
+### Municipality list
+
+```ts
+const munis = await client.municipalities.list({ area: "13", language: "en" });
+if (munis.ok) {
+  for (const m of munis.data.data) {
+    console.log(m.id, m.name);
+  }
+}
+```
+
 ## GIS endpoints (GeoJSON + PBF)
 
 `@a1678991/reinfolib` exposes GIS endpoints under category facades like `client.urbanPlanning`. Each one accepts an `XYZ` tile coordinate (`z`, `x`, `y`) and returns either a typed GeoJSON `FeatureCollection` (default) or raw PBF bytes (`Uint8Array`) for direct consumption by `@mapbox/vector-tile`.
@@ -74,6 +85,27 @@ if (tile.ok) {
 ```
 
 Zoom range is `11..15` and tile coordinates follow the [XYZ scheme used by GSI maps](https://maps.gsi.go.jp/development/tileCoordCheck.html).
+
+The same dual-format pattern applies to `client.prices.priceTiles(...)` (transaction/contract price points, XPT001) and `client.prices.landPriceTiles(...)` (published land prices, XPT002):
+
+```ts
+// Transaction price points (XPT001) — zoom 11..15
+const priceTiles = await client.prices.priceTiles({
+  z: 14,
+  x: 14552,
+  y: 6451,
+  from: "20241",
+  to: "20244",
+});
+
+// Published land prices (XPT002) — zoom 13..15
+const landPrices = await client.prices.landPriceTiles({
+  z: 14,
+  x: 14552,
+  y: 6451,
+  year: "2024",
+});
+```
 
 ## Configuration
 

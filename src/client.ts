@@ -5,6 +5,10 @@ import {
   createUrbanPlanningFacade,
   type UrbanPlanningFacade,
 } from "./categories/urban-planning.js";
+import {
+  createMunicipalitiesFacade,
+  type MunicipalitiesFacade,
+} from "./categories/municipalities.js";
 
 export type RateLimitOption = false | { capacity: number; refillPerSecond: number };
 export type RetryOption = false | Partial<RetryConfig>;
@@ -41,6 +45,7 @@ export class ReinfolibClient {
   // Category facades — populated as endpoints are added (Task 20 onward).
   readonly prices: PricesFacade;
   readonly urbanPlanning: UrbanPlanningFacade;
+  readonly municipalities: MunicipalitiesFacade;
 
   constructor(opts: ReinfolibClientOptions) {
     if (!opts.apiKey) throw new Error("ReinfolibClient: apiKey is required");
@@ -60,5 +65,6 @@ export class ReinfolibClient {
 
     this.prices = createPricesFacade(this);
     this.urbanPlanning = createUrbanPlanningFacade(this);
+    this.municipalities = createMunicipalitiesFacade(this);
   }
 }
