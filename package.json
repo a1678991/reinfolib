@@ -49,6 +49,7 @@
     "test:watch": "vitest",
     "test:integration": "INTEGRATION=1 vitest run --config vitest.integration.config.ts",
     "commitlint": "commitlint --edit",
+    "secretlint": "secretlint",
     "example:prices": "pnpm build && node --experimental-strip-types examples/quote-prices.ts",
     "example:zoning": "pnpm build && node --experimental-strip-types examples/quote-zoning.ts",
     "example:appraisals": "pnpm build && node --experimental-strip-types examples/quote-appraisals.ts",
@@ -62,9 +63,11 @@
   "devDependencies": {
     "@commitlint/cli": "21.0.1",
     "@commitlint/config-conventional": "21.0.1",
+    "@secretlint/secretlint-rule-preset-recommend": "13.0.2",
     "@types/node": "25.9.1",
     "oxfmt": "0.52.0",
     "oxlint": "1.67.0",
+    "secretlint": "13.0.2",
     "typescript": "6.0.3",
     "vitest": "4.1.7"
   },

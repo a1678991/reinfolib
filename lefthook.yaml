@@ -22,6 +22,9 @@ pre-commit:
       glob: "mise.toml"
       run: mise lock
       stage_fixed: true
+    - name: secretlint
+      glob: "*"
+      run: pnpm exec secretlint --no-glob {staged_files}
 
 pre-push:
   parallel: true
@@ -34,3 +37,5 @@ pre-push:
           echo "Please create a feature branch and open a pull request."
           exit 1
         fi
+    - name: gitleaks
+      run: mise run secrets:scan-history
