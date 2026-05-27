@@ -3,6 +3,14 @@
 
 ### Features
 
+* **prices,municipalities:** complete prices category + add municipalities ([#3](https://github.com/a1678991/reinfolib/issues/3)) ([d6c21ee](https://github.com/a1678991/reinfolib/commit/d6c21eebc5b64e4dc5294441ae72a159521f747c))
+* **urban-planning:** GIS foundation + XKT001 zoning endpoint ([#2](https://github.com/a1678991/reinfolib/issues/2)) ([9866145](https://github.com/a1678991/reinfolib/commit/98661457f441faefaef91f8a389478794d56e480))
+
+# [1.2.0](https://github.com/a1678991/reinfolib/compare/v1.1.0...v1.2.0) (2026-05-27)
+
+
+### Features
+
 * **urban-planning:** GIS foundation + XKT001 zoning endpoint ([#2](https://github.com/a1678991/reinfolib/issues/2)) ([b9b5447](https://github.com/a1678991/reinfolib/commit/b9b5447cb38cb30b18ef4fd4ee5d33ee94b5a297))
 
 # [1.1.0](https://github.com/a1678991/reinfolib/compare/v1.0.0...v1.1.0) (2026-05-26)
