@@ -1,6 +1,6 @@
 {
   "name": "@a1678991/reinfolib",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "TypeScript client for the MLIT 不動産情報ライブラリ (Real Estate Information Library) API",
   "keywords": [
     "api-client",
