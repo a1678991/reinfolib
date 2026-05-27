@@ -7,7 +7,7 @@ TypeScript client for the [MLIT 不動産情報ライブラリ (Real Estate Info
 - Built-in **configurable token-bucket rate limiting** and **retry with exponential backoff + full jitter** (honors `Retry-After`).
 - Node.js 24+, ESM only.
 
-> **v1.3.0** completes the `prices` category (XIT001, XCT001, XPT001, XPT002) and adds the `municipalities` category (XIT002). Remaining 25 endpoints land in v1.4.0+.
+> **v1.5.0** completes the `urbanPlanning` category — 7 endpoints covering zoning, land-use zones, location optimization, fire prevention, district plans, high-use districts, and planned roads. Remaining 23 endpoints (facilities, demographics, disaster) land in v1.6.0+.
 
 ## Install
 
@@ -106,6 +106,20 @@ const landPrices = await client.prices.landPriceTiles({
   year: "2024",
 });
 ```
+
+The full `urbanPlanning` family — all GIS, all dual-format — covers the major urban-planning data layers:
+
+```ts
+await client.urbanPlanning.zoning({ z, x, y }); // XKT001 — districts/zoning (Polygon)
+await client.urbanPlanning.landUseZones({ z, x, y }); // XKT002 — land-use zones (Polygon)
+await client.urbanPlanning.locationOptimization({ z, x, y }); // XKT003 — location optimization plans (Polygon)
+await client.urbanPlanning.firePrevention({ z, x, y }); // XKT014 — fire prevention zones (Polygon)
+await client.urbanPlanning.districtPlans({ z, x, y }); // XKT023 — district plans (Polygon)
+await client.urbanPlanning.highUseDistricts({ z, x, y }); // XKT024 — high-use districts (Polygon)
+await client.urbanPlanning.plannedRoads({ z, x, y }); // XKT030 — planned roads (LineString | MultiLineString)
+```
+
+All accept `{ format: "pbf" }` to receive raw `Uint8Array` instead of typed GeoJSON.
 
 ## Configuration
 

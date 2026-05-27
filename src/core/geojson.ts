@@ -12,6 +12,11 @@ export const LineStringGeometry = z.object({
   coordinates: z.array(Position).min(2),
 });
 
+export const MultiLineStringGeometry = z.object({
+  type: z.literal("MultiLineString"),
+  coordinates: z.array(z.array(Position).min(2)).min(1),
+});
+
 const LinearRing = z.array(Position).min(4); // first == last enforced by API conventions, not asserted here
 export const PolygonGeometry = z.object({
   type: z.literal("Polygon"),

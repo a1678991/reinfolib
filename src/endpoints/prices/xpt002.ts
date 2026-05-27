@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { commaListOf, tileCoordSchema, withResponseFormat } from "../../core/common.js";
+import { commaListOf, tileCoordSchema } from "../../core/common.js";
 import { FeatureCollectionSchema, PointGeometry } from "../../core/geojson.js";
 import type { ReinfolibClient, CallOptions } from "../../client.js";
 import type { ReinfolibError } from "../../core/errors.js";
-import { request } from "../../core/request.js";
+import { callGis } from "../../core/request.js";
 import type { Result } from "../../core/result.js";
 
 const xpt002ZoomSchema = z.number().int().min(13).max(15);
@@ -22,7 +22,7 @@ export const paramsSchema = z.object({
   y: tileCoordSchema,
   year: yearStringSchema,
   priceClassification: z.enum(["0", "1"]).optional(),
-  useCategoryCode: z.union([useCategoryCodeSchema, commaListOf(useCategoryCodeSchema)]).optional(),
+  useCategoryCode: commaListOf(useCategoryCodeSchema).optional(),
 });
 export type Params = z.infer<typeof paramsSchema>;
 
@@ -64,24 +64,5 @@ export function call(
   params: Params,
   opts: CallOptions & { format?: "geojson" | "pbf" | undefined } = {},
 ): Promise<Result<Response | Uint8Array, ReinfolibError>> {
-  const format = opts.format ?? "geojson";
-  const apiParams = { ...params, response_format: format };
-  const retry =
-    opts.retry === false ? { ...client.retry, maxAttempts: 1 } : { ...client.retry, ...opts.retry };
-
-  return request({
-    apiKey: client.apiKey,
-    baseUrl: client.baseUrl,
-    path: endpoint.path,
-    params: apiParams,
-    paramsSchema: withResponseFormat(paramsSchema),
-    responseSchema,
-    bucket: client.bucket,
-    retry,
-    timeoutMs: opts.timeoutMs ?? client.timeoutMs,
-    ...(opts.signal !== undefined ? { signal: opts.signal } : {}),
-    fetch: client.fetch,
-    ...(client.userAgent !== undefined ? { userAgent: client.userAgent } : {}),
-    responseKind: format === "pbf" ? "binary" : "json",
-  });
+  return callGis({ client, endpoint, params, paramsSchema, responseSchema, opts });
 }

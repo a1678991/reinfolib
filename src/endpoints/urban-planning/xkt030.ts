@@ -2,8 +2,8 @@ import { z } from "zod";
 import { tileCoordSchema, zoomSchema } from "../../core/common.js";
 import {
   FeatureCollectionSchema,
-  MultiPolygonGeometry,
-  PolygonGeometry,
+  LineStringGeometry,
+  MultiLineStringGeometry,
 } from "../../core/geojson.js";
 import type { ReinfolibClient, CallOptions } from "../../client.js";
 import type { ReinfolibError } from "../../core/errors.js";
@@ -19,27 +19,27 @@ export type Params = z.infer<typeof paramsSchema>;
 
 const propsSchema = z
   .object({
+    planning_road_ja: z.string().optional(),
+    kubun_id: z.number().int().optional(),
     prefecture: z.string().optional(),
     city_code: z.string().optional(),
     city_name: z.string().optional(),
-    kubun_id: z.number().int().optional(),
-    decision_date: z.string().optional(),
-    decision_classification: z.string().optional(),
-    decision_maker: z.string().optional(),
-    notice_number: z.string().optional(),
-    area_classification_ja: z.string().optional(),
     first_decision_date: z.string().optional(),
+    decision_date: z.string().optional(),
+    decision_type_ja: z.string().optional(),
+    decision_maker: z.string().optional(),
     notice_number_s: z.string().optional(),
+    notice_number: z.string().optional(),
   })
   .passthrough();
 
 export const responseSchema = FeatureCollectionSchema(
-  z.union([PolygonGeometry, MultiPolygonGeometry]),
+  z.union([LineStringGeometry, MultiLineStringGeometry]),
   propsSchema,
 );
 export type Response = z.infer<typeof responseSchema>;
 
-export const endpoint = { id: "XKT001", path: "/ex-api/external/XKT001" } as const;
+export const endpoint = { id: "XKT030", path: "/ex-api/external/XKT030" } as const;
 
 export type CallOptsGeoJson = CallOptions & { format?: "geojson" | undefined };
 export type CallOptsPbf = CallOptions & { format: "pbf" };

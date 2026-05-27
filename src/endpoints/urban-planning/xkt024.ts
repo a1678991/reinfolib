@@ -19,15 +19,16 @@ export type Params = z.infer<typeof paramsSchema>;
 
 const propsSchema = z
   .object({
-    prefecture: z.string().optional(),
-    city_code: z.string().optional(),
-    city_name: z.string().optional(),
-    kubun_id: z.number().int().optional(),
+    advanced_name: z.string().optional(),
+    advanced_type_ja: z.string().optional(),
+    kubun_id: z.string().optional(),
+    group_code: z.string().optional(),
     decision_date: z.string().optional(),
-    decision_classification: z.string().optional(),
+    decision_type_ja: z.string().optional(),
     decision_maker: z.string().optional(),
     notice_number: z.string().optional(),
-    area_classification_ja: z.string().optional(),
+    prefecture: z.string().optional(),
+    city_name: z.string().optional(),
     first_decision_date: z.string().optional(),
     notice_number_s: z.string().optional(),
   })
@@ -39,7 +40,7 @@ export const responseSchema = FeatureCollectionSchema(
 );
 export type Response = z.infer<typeof responseSchema>;
 
-export const endpoint = { id: "XKT001", path: "/ex-api/external/XKT001" } as const;
+export const endpoint = { id: "XKT024", path: "/ex-api/external/XKT024" } as const;
 
 export type CallOptsGeoJson = CallOptions & { format?: "geojson" | undefined };
 export type CallOptsPbf = CallOptions & { format: "pbf" };

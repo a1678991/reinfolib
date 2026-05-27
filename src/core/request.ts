@@ -1,8 +1,9 @@
-import type { ZodType } from "zod";
+import { z, type ZodType } from "zod";
 import type { ReinfolibError } from "./errors.js";
 import { err, ok, type Result } from "./result.js";
 import type { TokenBucket } from "./rate-limit.js";
 import { computeBackoffMs, shouldRetryStatus, sleep, type RetryConfig } from "./retry.js";
+import { withResponseFormat } from "./common.js";
 
 export type RequestArgs<P, R> = {
   apiKey: string;
@@ -146,4 +147,52 @@ export async function request<P, R>(
       attempts: maxAttempts,
     },
   );
+}
+
+export type CallGisOpts = {
+  format?: "geojson" | "pbf" | undefined;
+  signal?: AbortSignal | undefined;
+  timeoutMs?: number | undefined;
+  retry?: false | Partial<RetryConfig> | undefined;
+};
+
+type CallGisClientView = {
+  apiKey: string;
+  baseUrl: string;
+  timeoutMs: number;
+  userAgent?: string | undefined;
+  bucket: TokenBucket | undefined;
+  retry: RetryConfig;
+  fetch: typeof globalThis.fetch;
+};
+
+export async function callGis<P extends z.ZodRawShape, R>(args: {
+  client: CallGisClientView;
+  endpoint: { id: string; path: string };
+  params: z.infer<z.ZodObject<P>>;
+  paramsSchema: z.ZodObject<P>;
+  responseSchema: ZodType<R>;
+  opts: CallGisOpts;
+}): Promise<Result<R | Uint8Array, ReinfolibError>> {
+  const { client, endpoint, params, paramsSchema, responseSchema, opts } = args;
+  const format = opts.format ?? "geojson";
+  const apiParams = { ...params, response_format: format };
+  const retry =
+    opts.retry === false ? { ...client.retry, maxAttempts: 1 } : { ...client.retry, ...opts.retry };
+
+  return request({
+    apiKey: client.apiKey,
+    baseUrl: client.baseUrl,
+    path: endpoint.path,
+    params: apiParams,
+    paramsSchema: withResponseFormat(paramsSchema) as ZodType<typeof apiParams>,
+    responseSchema,
+    bucket: client.bucket,
+    retry,
+    timeoutMs: opts.timeoutMs ?? client.timeoutMs,
+    ...(opts.signal !== undefined ? { signal: opts.signal } : {}),
+    fetch: client.fetch,
+    ...(client.userAgent !== undefined ? { userAgent: client.userAgent } : {}),
+    responseKind: format === "pbf" ? "binary" : "json",
+  });
 }

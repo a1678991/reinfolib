@@ -22,11 +22,12 @@ const propsSchema = z
     prefecture: z.string().optional(),
     city_code: z.string().optional(),
     city_name: z.string().optional(),
-    kubun_id: z.number().int().optional(),
     decision_date: z.string().optional(),
     decision_classification: z.string().optional(),
     decision_maker: z.string().optional(),
     notice_number: z.string().optional(),
+    kubun_id: z.number().int().optional(),
+    kubun_name_ja: z.string().optional(),
     area_classification_ja: z.string().optional(),
     first_decision_date: z.string().optional(),
     notice_number_s: z.string().optional(),
@@ -39,7 +40,7 @@ export const responseSchema = FeatureCollectionSchema(
 );
 export type Response = z.infer<typeof responseSchema>;
 
-export const endpoint = { id: "XKT001", path: "/ex-api/external/XKT001" } as const;
+export const endpoint = { id: "XKT003", path: "/ex-api/external/XKT003" } as const;
 
 export type CallOptsGeoJson = CallOptions & { format?: "geojson" | undefined };
 export type CallOptsPbf = CallOptions & { format: "pbf" };

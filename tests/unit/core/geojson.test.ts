@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   PointGeometry,
   LineStringGeometry,
+  MultiLineStringGeometry,
   PolygonGeometry,
   MultiPolygonGeometry,
   FeatureCollectionSchema,
@@ -78,6 +79,25 @@ describe("LineStringGeometry", () => {
       coordinates: [
         [0, 0],
         [1, 1],
+      ],
+    });
+    expect(r.success).toBe(true);
+  });
+});
+
+describe("MultiLineStringGeometry", () => {
+  it("parses a multi-linestring", () => {
+    const r = MultiLineStringGeometry.safeParse({
+      type: "MultiLineString",
+      coordinates: [
+        [
+          [0, 0],
+          [1, 1],
+        ],
+        [
+          [2, 2],
+          [3, 3],
+        ],
       ],
     });
     expect(r.success).toBe(true);
