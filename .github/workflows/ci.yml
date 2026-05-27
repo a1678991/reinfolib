@@ -43,6 +43,12 @@ jobs:
       - name: Test
         run: pnpm test
 
+      - name: Secret scan — git history (gitleaks, entropy + ~150 provider rules)
+        run: mise run secrets:scan-history
+
+      - name: Secret scan — working tree (secretlint, ~28 provider presets)
+        run: mise run secrets:scan-tree
+
       - name: Commitlint (PR only)
         if: github.event_name == 'pull_request'
         run: pnpm exec commitlint --from=${{ github.event.pull_request.base.sha }} --to=${{ github.event.pull_request.head.sha }}

@@ -1,0 +1,13 @@
+# gitleaks config — extends the upstream default ruleset (entropy + ~150 provider regexes)
+# Docs: https://github.com/gitleaks/gitleaks#configuration
+#
+# `useDefault = true` means we inherit every built-in rule; this file only adds allowlists for
+# known-safe paths. Add allowlists ONLY for real false positives — never to silence noise from
+# a path that could plausibly hold a real secret.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "captured MLIT API response fixtures — payload data, never contains credentials"
+paths = ['''tests/fixtures/.*\.json$''', '''tests/fixtures/.*\.pbf$''']

@@ -39,6 +39,38 @@ checksum = "sha256:6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f
 url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_windows_amd64.zip"
 provenance = "github-attestations"
 
+[[tools.gitleaks]]
+version = "8.30.1"
+backend = "aqua:gitleaks/gitleaks"
+
+[tools.gitleaks."platforms.linux-arm64"]
+checksum = "sha256:e4a487ee7ccd7d3a7f7ec08657610aa3606637dab924210b3aee62570fb4b080"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_arm64.tar.gz"
+
+[tools.gitleaks."platforms.linux-arm64-musl"]
+checksum = "sha256:e4a487ee7ccd7d3a7f7ec08657610aa3606637dab924210b3aee62570fb4b080"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_arm64.tar.gz"
+
+[tools.gitleaks."platforms.linux-x64"]
+checksum = "sha256:551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz"
+
+[tools.gitleaks."platforms.linux-x64-musl"]
+checksum = "sha256:551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz"
+
+[tools.gitleaks."platforms.macos-arm64"]
+checksum = "sha256:b40ab0ae55c505963e365f271a8d3846efbc170aa17f2607f13df610a9aeb6a5"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_darwin_arm64.tar.gz"
+
+[tools.gitleaks."platforms.macos-x64"]
+checksum = "sha256:dfe101a4db2255fc85120ac7f3d25e4342c3c20cf749f2c20a18081af1952709"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_darwin_x64.tar.gz"
+
+[tools.gitleaks."platforms.windows-x64"]
+checksum = "sha256:d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e"
+url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_windows_x64.zip"
+
 [[tools.lefthook]]
 version = "2.1.8"
 backend = "aqua:evilmartians/lefthook"
@@ -163,6 +195,11 @@ checksum = "sha256:a7f4de96ae6b63919792a15652a99fd6d209c85172237a6abe22ef89f3089
 url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-arm64-musl.tar.gz"
 provenance = "github-attestations"
 
+[tools.pnpm."platforms.linux-x64"]
+checksum = "sha256:a35b592d85a208222fc354f15e9f04d08add1aff1382a30b48094ea8b618a302"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-x64.tar.gz"
+provenance = "github-attestations"
+
 [tools.pnpm."platforms.linux-x64-musl"]
 checksum = "sha256:e761ac60bb5b9bd6b423adce7edad7590a72de82ca11149e97f119890ef0fd49"
 url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-x64-musl.tar.gz"
@@ -193,8 +230,14 @@ provenance = "github-attestations"
 [tools.zizmor."platforms.linux-x64"]
 checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
 url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl"]
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.macos-arm64"]
+checksum = "sha256:fc4ea59e18bc028dddb5f710b16dbc361b01ff1e7a20c03b8e5778366ca9f4e1"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-apple-darwin.tar.gz"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.macos-x64"]
