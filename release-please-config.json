@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "include-component-in-tag": false,
+  "bootstrap-sha": "ab5a0ba233f765adfa013717d2c07601e614062c",
+  "pull-request-title-pattern": "chore(release): ${version}",
+  "packages": {
+    ".": {
+      "package-name": "@a1678991/reinfolib"
+    }
+  }
+}
