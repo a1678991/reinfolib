@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { tileCoordSchema, zoomSchema, withResponseFormat } from "../../core/common.js";
+import { tileCoordSchema, zoomSchema } from "../../core/common.js";
 import {
   FeatureCollectionSchema,
   MultiPolygonGeometry,
@@ -7,7 +7,7 @@ import {
 } from "../../core/geojson.js";
 import type { ReinfolibClient, CallOptions } from "../../client.js";
 import type { ReinfolibError } from "../../core/errors.js";
-import { request } from "../../core/request.js";
+import { callGis } from "../../core/request.js";
 import type { Result } from "../../core/result.js";
 
 export const paramsSchema = z.object({
@@ -59,24 +59,5 @@ export function call(
   params: Params,
   opts: CallOptions & { format?: "geojson" | "pbf" | undefined } = {},
 ): Promise<Result<Response | Uint8Array, ReinfolibError>> {
-  const format = opts.format ?? "geojson";
-  const apiParams = { ...params, response_format: format };
-  const retry =
-    opts.retry === false ? { ...client.retry, maxAttempts: 1 } : { ...client.retry, ...opts.retry };
-
-  return request({
-    apiKey: client.apiKey,
-    baseUrl: client.baseUrl,
-    path: endpoint.path,
-    params: apiParams,
-    paramsSchema: withResponseFormat(paramsSchema),
-    responseSchema,
-    bucket: client.bucket,
-    retry,
-    timeoutMs: opts.timeoutMs ?? client.timeoutMs,
-    fetch: client.fetch,
-    ...(opts.signal !== undefined ? { signal: opts.signal } : {}),
-    ...(client.userAgent !== undefined ? { userAgent: client.userAgent } : {}),
-    responseKind: format === "pbf" ? "binary" : "json",
-  });
+  return callGis({ client, endpoint, params, paramsSchema, responseSchema, opts });
 }

@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { commaListOf, tileCoordSchema, withResponseFormat, zoomSchema } from "../../core/common.js";
+import { commaListOf, tileCoordSchema, zoomSchema } from "../../core/common.js";
 import { FeatureCollectionSchema, PointGeometry } from "../../core/geojson.js";
 import type { ReinfolibClient, CallOptions } from "../../client.js";
 import type { ReinfolibError } from "../../core/errors.js";
-import { request } from "../../core/request.js";
+import { callGis } from "../../core/request.js";
 import type { Result } from "../../core/result.js";
 
 const periodSchema = z.string().regex(/^\d{4}[1-4]$/, "must be YYYYN where N is 1..4");
@@ -16,7 +16,7 @@ export const paramsSchema = z.object({
   from: periodSchema,
   to: periodSchema,
   priceClassification: z.enum(["01", "02"]).optional(),
-  landTypeCode: z.union([landTypeCodeSchema, commaListOf(landTypeCodeSchema)]).optional(),
+  landTypeCode: commaListOf(landTypeCodeSchema).optional(),
 });
 export type Params = z.infer<typeof paramsSchema>;
 
@@ -62,24 +62,5 @@ export function call(
   params: Params,
   opts: CallOptions & { format?: "geojson" | "pbf" | undefined } = {},
 ): Promise<Result<Response | Uint8Array, ReinfolibError>> {
-  const format = opts.format ?? "geojson";
-  const apiParams = { ...params, response_format: format };
-  const retry =
-    opts.retry === false ? { ...client.retry, maxAttempts: 1 } : { ...client.retry, ...opts.retry };
-
-  return request({
-    apiKey: client.apiKey,
-    baseUrl: client.baseUrl,
-    path: endpoint.path,
-    params: apiParams,
-    paramsSchema: withResponseFormat(paramsSchema),
-    responseSchema,
-    bucket: client.bucket,
-    retry,
-    timeoutMs: opts.timeoutMs ?? client.timeoutMs,
-    ...(opts.signal !== undefined ? { signal: opts.signal } : {}),
-    fetch: client.fetch,
-    ...(client.userAgent !== undefined ? { userAgent: client.userAgent } : {}),
-    responseKind: format === "pbf" ? "binary" : "json",
-  });
+  return callGis({ client, endpoint, params, paramsSchema, responseSchema, opts });
 }

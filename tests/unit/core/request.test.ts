@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { z } from "zod";
-import { request, type RequestArgs } from "../../../src/core/request.js";
+import { request, callGis, type RequestArgs } from "../../../src/core/request.js";
 import { TokenBucket } from "../../../src/core/rate-limit.js";
 import { DEFAULT_RETRY } from "../../../src/core/retry.js";
 
@@ -226,6 +226,113 @@ describe("request — binary response", () => {
     const binaryArgs = { ...args, responseKind: "binary" as const };
     const r = await request(binaryArgs as unknown as Parameters<typeof request>[0]);
     expect(r.ok).toBe(true);
+    expect(fetchFn).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("callGis", () => {
+  const userParams = z.object({ z: z.number().int(), x: z.number().int(), y: z.number().int() });
+  const propsSchema = z.object({ name: z.string() });
+  const fcSchema = z.object({
+    type: z.literal("FeatureCollection"),
+    features: z.array(
+      z.object({
+        type: z.literal("Feature"),
+        geometry: z.object({
+          type: z.literal("Point"),
+          coordinates: z.tuple([z.number(), z.number()]),
+        }),
+        properties: propsSchema,
+      }),
+    ),
+  });
+  const sampleFc = {
+    type: "FeatureCollection" as const,
+    features: [
+      {
+        type: "Feature" as const,
+        geometry: { type: "Point" as const, coordinates: [0, 0] as [number, number] },
+        properties: { name: "origin" },
+      },
+    ],
+  };
+
+  function buildClientStub(fetchFn: typeof globalThis.fetch) {
+    return {
+      apiKey: "k",
+      baseUrl: "https://example.test",
+      timeoutMs: 5_000,
+      userAgent: undefined,
+      bucket: undefined,
+      retry: { ...DEFAULT_RETRY, baseDelayMs: 1, maxDelayMs: 5, maxAttempts: 3 },
+      fetch: fetchFn,
+    };
+  }
+
+  it("defaults to geojson and returns parsed FeatureCollection", async () => {
+    const fetchFn = vi.fn(async () => new Response(JSON.stringify(sampleFc), { status: 200 }));
+    const client = buildClientStub(fetchFn);
+    const res = await callGis({
+      client,
+      endpoint: { id: "TEST", path: "/test" },
+      params: { z: 14, x: 1, y: 1 },
+      paramsSchema: userParams,
+      responseSchema: fcSchema,
+      opts: {},
+    });
+    expect(res.ok).toBe(true);
+    if (res.ok) expect(res.data).toEqual(sampleFc);
+  });
+
+  it("appends response_format=geojson to the query string by default", async () => {
+    const fetchFn = vi.fn(async () => new Response(JSON.stringify(sampleFc), { status: 200 }));
+    const client = buildClientStub(fetchFn);
+    await callGis({
+      client,
+      endpoint: { id: "TEST", path: "/test" },
+      params: { z: 14, x: 1, y: 1 },
+      paramsSchema: userParams,
+      responseSchema: fcSchema,
+      opts: {},
+    });
+    const url = String((fetchFn.mock.calls[0] as unknown as [string, RequestInit?])[0]);
+    expect(url).toContain("response_format=geojson");
+  });
+
+  it("returns Uint8Array when opts.format=pbf", async () => {
+    const bytes = new Uint8Array([0xab, 0xcd]);
+    const fetchFn = vi.fn(async () => new Response(bytes, { status: 200 }));
+    const client = buildClientStub(fetchFn);
+    const res = await callGis({
+      client,
+      endpoint: { id: "TEST", path: "/test" },
+      params: { z: 14, x: 1, y: 1 },
+      paramsSchema: userParams,
+      responseSchema: fcSchema,
+      opts: { format: "pbf" },
+    });
+    expect(res.ok).toBe(true);
+    if (res.ok) expect(res.data).toBeInstanceOf(Uint8Array);
+    const url = String((fetchFn.mock.calls[0] as unknown as [string, RequestInit?])[0]);
+    expect(url).toContain("response_format=pbf");
+  });
+
+  it("merges per-call retry override", async () => {
+    const fetchFn = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("nope", { status: 503 }))
+      .mockResolvedValueOnce(new Response("nope", { status: 503 }));
+    const client = buildClientStub(fetchFn);
+    const res = await callGis({
+      client,
+      endpoint: { id: "TEST", path: "/test" },
+      params: { z: 14, x: 1, y: 1 },
+      paramsSchema: userParams,
+      responseSchema: fcSchema,
+      opts: { retry: { maxAttempts: 2 } },
+    });
+    expect(res.ok).toBe(false);
+    if (!res.ok && res.error.kind === "api") expect(res.error.attempts).toBe(2);
     expect(fetchFn).toHaveBeenCalledTimes(2);
   });
 });
