@@ -1,5 +1,6 @@
 import * as xkt001 from "../endpoints/urban-planning/xkt001.js";
 import * as xkt002 from "../endpoints/urban-planning/xkt002.js";
+import * as xkt003 from "../endpoints/urban-planning/xkt003.js";
 import type { ReinfolibClient } from "../client.js";
 import type { ReinfolibError } from "../core/errors.js";
 import type { Result } from "../core/result.js";
@@ -19,6 +20,13 @@ export type UrbanPlanningFacade = {
       opts?: xkt002.CallOptsGeoJson,
     ): Promise<Result<xkt002.Response, ReinfolibError>>;
   };
+  locationOptimization: {
+    (params: xkt003.Params, opts: xkt003.CallOptsPbf): Promise<Result<Uint8Array, ReinfolibError>>;
+    (
+      params: xkt003.Params,
+      opts?: xkt003.CallOptsGeoJson,
+    ): Promise<Result<xkt003.Response, ReinfolibError>>;
+  };
 };
 
 export function createUrbanPlanningFacade(client: ReinfolibClient): UrbanPlanningFacade {
@@ -31,5 +39,11 @@ export function createUrbanPlanningFacade(client: ReinfolibClient): UrbanPlannin
         params,
         opts as xkt002.CallOptsPbf,
       )) as UrbanPlanningFacade["landUseZones"],
+    locationOptimization: ((params, opts) =>
+      xkt003.call(
+        client,
+        params,
+        opts as xkt003.CallOptsPbf,
+      )) as UrbanPlanningFacade["locationOptimization"],
   };
 }
