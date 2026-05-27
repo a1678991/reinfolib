@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/a1678991/reinfolib/compare/v1.1.0...v1.2.0) (2026-05-27)
+
+
+### Features
+
+* **urban-planning:** GIS foundation + XKT001 zoning endpoint ([#2](https://github.com/a1678991/reinfolib/issues/2)) ([b9b5447](https://github.com/a1678991/reinfolib/commit/b9b5447cb38cb30b18ef4fd4ee5d33ee94b5a297))
+
 # [1.1.0](https://github.com/a1678991/reinfolib/compare/v1.0.0...v1.1.0) (2026-05-26)
 
 
