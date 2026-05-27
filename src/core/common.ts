@@ -21,3 +21,6 @@ export const commaListOf = <T extends z.ZodType<string>>(item: T) =>
       (v) => v.split(",").every((s) => item.safeParse(s.trim()).success),
       "all comma-separated values must match the item schema",
     );
+
+export const zoomSchema = z.number().int().min(11).max(15);
+export const tileCoordSchema = z.number().int().nonnegative();

@@ -1,6 +1,10 @@
 import { TokenBucket } from "./core/rate-limit.js";
 import { DEFAULT_RETRY, type RetryConfig } from "./core/retry.js";
-import * as xit001 from "./endpoints/prices/xit001.js";
+import { createPricesFacade, type PricesFacade } from "./categories/prices.js";
+import {
+  createUrbanPlanningFacade,
+  type UrbanPlanningFacade,
+} from "./categories/urban-planning.js";
 
 export type RateLimitOption = false | { capacity: number; refillPerSecond: number };
 export type RetryOption = false | Partial<RetryConfig>;
@@ -35,12 +39,8 @@ export class ReinfolibClient {
   readonly fetch: typeof globalThis.fetch;
 
   // Category facades — populated as endpoints are added (Task 20 onward).
-  readonly prices: {
-    transactionPoints: (
-      params: xit001.Params,
-      opts?: CallOptions,
-    ) => ReturnType<typeof xit001.call>;
-  };
+  readonly prices: PricesFacade;
+  readonly urbanPlanning: UrbanPlanningFacade;
 
   constructor(opts: ReinfolibClientOptions) {
     if (!opts.apiKey) throw new Error("ReinfolibClient: apiKey is required");
@@ -58,8 +58,7 @@ export class ReinfolibClient {
         ? { ...DEFAULT_RETRY, maxAttempts: 1 }
         : { ...DEFAULT_RETRY, ...opts.retry };
 
-    this.prices = {
-      transactionPoints: (params, callOpts) => xit001.call(this, params, callOpts),
-    };
+    this.prices = createPricesFacade(this);
+    this.urbanPlanning = createUrbanPlanningFacade(this);
   }
 }

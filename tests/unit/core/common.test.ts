@@ -6,6 +6,8 @@ import {
   yearSchema,
   quarterSchema,
   languageSchema,
+  zoomSchema,
+  tileCoordSchema,
 } from "../../../src/core/common.js";
 
 describe("common schemas", () => {
@@ -45,5 +47,21 @@ describe("common schemas", () => {
     expect(languageSchema.safeParse("ja").success).toBe(true);
     expect(languageSchema.safeParse("en").success).toBe(true);
     expect(languageSchema.safeParse("fr").success).toBe(false);
+  });
+});
+
+describe("ztile schemas", () => {
+  it("zoom accepts 11..15", () => {
+    for (const z of [11, 12, 13, 14, 15]) expect(zoomSchema.safeParse(z).success).toBe(true);
+    expect(zoomSchema.safeParse(10).success).toBe(false);
+    expect(zoomSchema.safeParse(16).success).toBe(false);
+    expect(zoomSchema.safeParse(13.5).success).toBe(false);
+  });
+
+  it("tileCoord accepts non-negative integers", () => {
+    expect(tileCoordSchema.safeParse(0).success).toBe(true);
+    expect(tileCoordSchema.safeParse(14626).success).toBe(true);
+    expect(tileCoordSchema.safeParse(-1).success).toBe(false);
+    expect(tileCoordSchema.safeParse(1.5).success).toBe(false);
   });
 });

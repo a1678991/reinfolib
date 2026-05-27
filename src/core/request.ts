@@ -17,6 +17,7 @@ export type RequestArgs<P, R> = {
   signal?: AbortSignal | undefined;
   fetch: typeof globalThis.fetch;
   userAgent?: string | undefined;
+  responseKind?: "json" | "binary" | undefined;
 };
 
 function buildUrl(baseUrl: string, path: string, params: Record<string, unknown>): string {
@@ -32,7 +33,9 @@ function isAbortError(e: unknown): boolean {
   return typeof e === "object" && e !== null && (e as { name?: string }).name === "AbortError";
 }
 
-export async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R, ReinfolibError>> {
+export async function request<P, R>(
+  a: RequestArgs<P, R>,
+): Promise<Result<R | Uint8Array, ReinfolibError>> {
   // Phase 1: params validation
   const parsedParams = a.paramsSchema.safeParse(a.params);
   if (!parsedParams.success) {
@@ -65,7 +68,7 @@ export async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R, Rei
     try {
       const headers: Record<string, string> = {
         "Ocp-Apim-Subscription-Key": a.apiKey,
-        Accept: "application/json",
+        Accept: a.responseKind === "binary" ? "application/octet-stream" : "application/json",
       };
       if (a.userAgent !== undefined) headers["User-Agent"] = a.userAgent;
       res = await a.fetch(url, { method: "GET", headers, signal: timeoutAc.signal });
@@ -112,7 +115,17 @@ export async function request<P, R>(a: RequestArgs<P, R>): Promise<Result<R, Rei
       return err({ kind: "api", status: res.status, body, attempts: attempt });
     }
 
-    // Phase 5: response validation
+    // Phase 5: response read + validation
+    if (a.responseKind === "binary") {
+      let buf: ArrayBuffer;
+      try {
+        buf = await res.arrayBuffer();
+      } catch (cause) {
+        return err({ kind: "network", cause, attempts: attempt });
+      }
+      return ok(new Uint8Array(buf));
+    }
+
     let json: unknown;
     try {
       json = await res.json();

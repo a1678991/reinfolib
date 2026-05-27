@@ -7,7 +7,7 @@ TypeScript client for the [MLIT 不動産情報ライブラリ (Real Estate Info
 - Built-in **configurable token-bucket rate limiting** and **retry with exponential backoff + full jitter** (honors `Retry-After`).
 - Node.js 24+, ESM only.
 
-> **v0.1.0** ships with the XIT001 transaction-price endpoint. Remaining 30 endpoints land in v0.2.0+.
+> **v1.2.0** ships XIT001 (prices) and XKT001 (urban-planning zoning) — the GIS architecture is now live. Remaining 29 endpoints land in v1.3.0+.
 
 ## Install
 
@@ -53,6 +53,27 @@ for (const record of res.data.data) {
   console.log(record.Prefecture, record.TradePrice);
 }
 ```
+
+## GIS endpoints (GeoJSON + PBF)
+
+`@a1678991/reinfolib` exposes GIS endpoints under category facades like `client.urbanPlanning`. Each one accepts an `XYZ` tile coordinate (`z`, `x`, `y`) and returns either a typed GeoJSON `FeatureCollection` (default) or raw PBF bytes (`Uint8Array`) for direct consumption by `@mapbox/vector-tile`.
+
+```ts
+// Typed GeoJSON
+const geo = await client.urbanPlanning.zoning({ z: 14, x: 14552, y: 6451 });
+if (!geo.ok) return console.error(geo.error);
+for (const feature of geo.data.features) {
+  console.log(feature.properties.city_name, feature.geometry.type);
+}
+
+// Raw PBF (Uint8Array) — feed to your favourite vector-tile decoder
+const tile = await client.urbanPlanning.zoning({ z: 14, x: 14552, y: 6451 }, { format: "pbf" });
+if (tile.ok) {
+  // tile.data is a Uint8Array
+}
+```
+
+Zoom range is `11..15` and tile coordinates follow the [XYZ scheme used by GSI maps](https://maps.gsi.go.jp/development/tileCoordCheck.html).
 
 ## Configuration
 

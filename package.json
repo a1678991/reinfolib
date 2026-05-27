@@ -50,7 +50,8 @@
     "test:integration": "INTEGRATION=1 vitest run --config vitest.integration.config.ts",
     "commitlint": "commitlint --edit",
     "release": "semantic-release",
-    "example": "pnpm build && node --experimental-strip-types examples/quote-prices.ts"
+    "example:prices": "pnpm build && node --experimental-strip-types examples/quote-prices.ts",
+    "example:zoning": "pnpm build && node --experimental-strip-types examples/quote-zoning.ts"
   },
   "dependencies": {
     "zod": "^4.4.3"

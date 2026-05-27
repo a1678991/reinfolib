@@ -93,5 +93,6 @@ export function call(
     ...(client.userAgent !== undefined ? { userAgent: client.userAgent } : {}),
   };
 
-  return request(args);
+  // xit001 never requests binary, so the Uint8Array branch of request() can't happen here.
+  return request(args) as Promise<Result<Response, ReinfolibError>>;
 }

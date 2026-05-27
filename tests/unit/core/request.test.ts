@@ -45,6 +45,26 @@ describe("request", () => {
     expect(headers.get("Ocp-Apim-Subscription-Key")).toBe("test-key");
   });
 
+  it("sends Accept: application/json by default", async () => {
+    const fetchFn = vi.fn(async () => new Response(JSON.stringify({ ok: true, n: 1 })));
+    const args = buildArgs({ fetch: fetchFn });
+    await request(args);
+    const call = (fetchFn.mock.calls as unknown as [string, RequestInit?][])[0]!;
+    const headers = new Headers(call[1]?.headers);
+    expect(headers.get("Accept")).toBe("application/json");
+  });
+
+  it("sends Accept: application/octet-stream when responseKind=binary", async () => {
+    const bytes = new Uint8Array([0x01]);
+    const fetchFn = vi.fn(async () => new Response(bytes, { status: 200 }));
+    const args = buildArgs({ fetch: fetchFn });
+    const binaryArgs = { ...args, responseKind: "binary" as const };
+    await request(binaryArgs as unknown as Parameters<typeof request>[0]);
+    const call = (fetchFn.mock.calls as unknown as [string, RequestInit?][])[0]!;
+    const headers = new Headers(call[1]?.headers);
+    expect(headers.get("Accept")).toBe("application/octet-stream");
+  });
+
   it("encodes params as query string", async () => {
     const fetchFn = vi.fn(async () => new Response(JSON.stringify({ ok: true, n: 1 })));
     const args = buildArgs({ fetch: fetchFn, params: { year: 2024 } });
@@ -111,7 +131,7 @@ describe("request", () => {
     const args = buildArgs({ fetch: fetchFn });
     const r = await request(args);
     expect(r.ok).toBe(true);
-    if (r.ok) expect(r.data.n).toBe(7);
+    if (r.ok) expect((r.data as { ok: true; n: number }).n).toBe(7);
     expect(fetchFn).toHaveBeenCalledTimes(2);
   });
 
@@ -165,5 +185,47 @@ describe("request", () => {
     const r = await p;
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.error.kind).toBe("aborted");
+  });
+});
+
+describe("request — binary response", () => {
+  it("returns ok with Uint8Array when responseKind=binary", async () => {
+    const bytes = new Uint8Array([0x1a, 0x2b, 0x3c, 0x4d]);
+    const fetchFn = vi.fn(async () => new Response(bytes, { status: 200 }));
+    const args = buildArgs({ fetch: fetchFn });
+    const binaryArgs = { ...args, responseKind: "binary" as const };
+    const r = await request(binaryArgs as unknown as Parameters<typeof request>[0]);
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      expect(r.data).toBeInstanceOf(Uint8Array);
+      expect(Array.from(r.data as Uint8Array)).toEqual([0x1a, 0x2b, 0x3c, 0x4d]);
+    }
+  });
+
+  it("does not invoke responseSchema for binary responses", async () => {
+    const bytes = new Uint8Array([0xff]);
+    const fetchFn = vi.fn(async () => new Response(bytes, { status: 200 }));
+    const spySchema = z.object({ never: z.literal(true) });
+    const safeParse = vi.spyOn(spySchema, "safeParse");
+    const args = buildArgs({
+      fetch: fetchFn,
+      responseSchema: spySchema as unknown as typeof responseSchema,
+    });
+    const binaryArgs = { ...args, responseKind: "binary" as const };
+    await request(binaryArgs as unknown as Parameters<typeof request>[0]);
+    expect(safeParse).not.toHaveBeenCalled();
+  });
+
+  it("retries on 5xx for binary path too", async () => {
+    const bytes = new Uint8Array([0xab]);
+    const fetchFn = vi
+      .fn()
+      .mockResolvedValueOnce(new Response("nope", { status: 503 }))
+      .mockResolvedValueOnce(new Response(bytes, { status: 200 }));
+    const args = buildArgs({ fetch: fetchFn });
+    const binaryArgs = { ...args, responseKind: "binary" as const };
+    const r = await request(binaryArgs as unknown as Parameters<typeof request>[0]);
+    expect(r.ok).toBe(true);
+    expect(fetchFn).toHaveBeenCalledTimes(2);
   });
 });

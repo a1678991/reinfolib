@@ -1,0 +1,136 @@
+{
+  "type": "FeatureCollection",
+  "name": "urban_plan_area, area_classification",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::6668"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [139.74606692790985, 35.67512564751708],
+            [139.74606692790985, 35.69301641578693],
+            [139.76809322834015, 35.69301641578693],
+            [139.76809322834015, 35.67941352301061],
+            [139.7676318883896, 35.678703250613495],
+            [139.76521790027618, 35.67512564751708],
+            [139.74606692790985, 35.67512564751708]
+          ]
+        ]
+      },
+      "properties": {
+        "_id": "QJOc0JgBJx74NFADsnCY",
+        "_index": "bs010_urban_plan_area_202508221605",
+        "decision_date": "",
+        "city_name": "千代田区",
+        "prefecture": "東京都",
+        "city_code": "13101",
+        "notice_number_s": "",
+        "notice_number": "",
+        "decision_classification": "",
+        "decision_maker": "",
+        "kubun_id": 21,
+        "area_classification_ja": "都市計画区域",
+        "first_decision_date": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [139.76809322834015, 35.67941352301061],
+            [139.76809322834015, 35.67512564751708],
+            [139.76521790027618, 35.67512564751708],
+            [139.7676318883896, 35.678703250613495],
+            [139.76809322834015, 35.67941352301061]
+          ]
+        ]
+      },
+      "properties": {
+        "_id": "QZOc0JgBJx74NFADsnCx",
+        "_index": "bs010_urban_plan_area_202508221605",
+        "decision_date": "",
+        "city_name": "中央区",
+        "prefecture": "東京都",
+        "city_code": "13102",
+        "notice_number_s": "",
+        "notice_number": "",
+        "decision_classification": "",
+        "decision_maker": "",
+        "kubun_id": 21,
+        "area_classification_ja": "都市計画区域",
+        "first_decision_date": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [139.74606692790985, 35.67512564751708],
+            [139.74606692790985, 35.69301641578693],
+            [139.76809322834015, 35.69301641578693],
+            [139.76809322834015, 35.67941352301061],
+            [139.7676318883896, 35.678703250613495],
+            [139.76521790027618, 35.67512564751708],
+            [139.74606692790985, 35.67512564751708]
+          ]
+        ]
+      },
+      "properties": {
+        "_id": "CPL03pgBxLgMoUYlGNS8",
+        "_index": "bs022_area_classification_202508251056",
+        "decision_date": "",
+        "city_name": "千代田区",
+        "prefecture": "東京都",
+        "city_code": "13101",
+        "notice_number_s": "",
+        "notice_number": "",
+        "decision_classification": "",
+        "decision_maker": "",
+        "kubun_id": 22,
+        "area_classification_ja": "市街化区域",
+        "first_decision_date": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [139.76809322834015, 35.67941352301061],
+            [139.76809322834015, 35.67512564751708],
+            [139.76521790027618, 35.67512564751708],
+            [139.7676318883896, 35.678703250613495],
+            [139.76809322834015, 35.67941352301061]
+          ]
+        ]
+      },
+      "properties": {
+        "_id": "DfL03pgBxLgMoUYlGNTY",
+        "_index": "bs022_area_classification_202508251056",
+        "decision_date": "",
+        "city_name": "中央区",
+        "prefecture": "東京都",
+        "city_code": "13102",
+        "notice_number_s": "",
+        "notice_number": "",
+        "decision_classification": "",
+        "decision_maker": "",
+        "kubun_id": 22,
+        "area_classification_ja": "市街化区域",
+        "first_decision_date": ""
+      }
+    }
+  ]
+}

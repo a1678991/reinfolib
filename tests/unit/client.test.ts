@@ -12,6 +12,11 @@ describe("ReinfolibClient", () => {
     expect(c.prices).toBeDefined();
   });
 
+  it("exposes the urbanPlanning category facade", () => {
+    const c = new ReinfolibClient({ apiKey: "k" });
+    expect(c.urbanPlanning).toBeDefined();
+  });
+
   it("rejects empty apiKey", () => {
     expect(() => new ReinfolibClient({ apiKey: "" })).toThrow();
   });
