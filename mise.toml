@@ -3,7 +3,7 @@ actionlint = "1.7.12"
 gitleaks = "8.30.1"
 lefthook = "2.1.8"
 node = "24"
-pinact = "4.0.0"
+pinact = "4.1.1"
 pnpm = "11"
 zizmor = "1.24.1"
 
