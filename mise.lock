@@ -182,7 +182,7 @@ url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v4.0.0/pinact
 provenance = "github-attestations"
 
 [[tools.pnpm]]
-version = "11.2.2"
+version = "11.11.0"
 backend = "aqua:pnpm/pnpm"
 
 [tools.pnpm."platforms.linux-arm64"]
