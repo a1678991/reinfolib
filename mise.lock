@@ -111,36 +111,36 @@ url = "https://github.com/evilmartians/lefthook/releases/download/v2.1.8/lefthoo
 provenance = "github-attestations"
 
 [[tools.node]]
-version = "24.16.0"
+version = "24.22.2"
 backend = "core:node"
 
 [tools.node."platforms.linux-arm64"]
-checksum = "sha256:589f5b6dd4fcfee4dfda73013903c966abaa8abd93dbc9d436544e472b4f0e74"
-url = "https://nodejs.org/dist/v24.16.0/node-v24.16.0-linux-arm64.tar.gz"
+checksum = "sha256:95c264150aceb7f3437a29fd6984924f5f8d1511ea3cbd6c508b83f6c555dae2"
+url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-linux-arm64.tar.gz"
 
 [tools.node."platforms.linux-arm64-musl"]
-checksum = "sha256:85dde27aa73503b03dadfa0410a800067b4e3f702fb7fcaa3beaf284dfcc69e9"
-url = "https://unofficial-builds.nodejs.org/download/release/v24.16.0/node-v24.16.0-linux-arm64-musl.tar.gz"
+checksum = "sha256:70afd250a927fbc32f3d95a58597efdf14aa8ad194e894268f9b8309a2dab84e"
+url = "https://unofficial-builds.nodejs.org/download/release/v24.22.2/node-v24.22.2-linux-arm64-musl.tar.gz"
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:2faf6a387e9b62b888e21c54f01249fb27537ffecf1842f29f4c919d0a59a0ff"
-url = "https://nodejs.org/dist/v24.16.0/node-v24.16.0-linux-x64.tar.gz"
+checksum = "sha256:361718c444e49af2ca5a110c83ba6a8901143f23ab285ebbef0341f391f482a9"
+url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-linux-x64.tar.gz"
 
 [tools.node."platforms.linux-x64-musl"]
-checksum = "sha256:50df5d8d474892d4f7b906167df36f77f5b93908f63dc532dc568219cab65841"
-url = "https://unofficial-builds.nodejs.org/download/release/v24.16.0/node-v24.16.0-linux-x64-musl.tar.gz"
+checksum = "sha256:867e322d67294e9c405f10cae5d70ed2e4940bb367fa47dbcb5151c9899d7c04"
+url = "https://unofficial-builds.nodejs.org/download/release/v24.22.2/node-v24.22.2-linux-x64-musl.tar.gz"
 
 [tools.node."platforms.macos-arm64"]
-checksum = "sha256:39189dab4eeb15706c424af0ac08a3044c9e48f7db12a7d77f6b7aafc7dd5df6"
-url = "https://nodejs.org/dist/v24.16.0/node-v24.16.0-darwin-arm64.tar.gz"
+checksum = "sha256:aa9549349e47dffaa42dcf95d6e06ade8c4bdafc980979883b88767670df385a"
+url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-darwin-arm64.tar.gz"
 
 [tools.node."platforms.macos-x64"]
-checksum = "sha256:298b4c7b3cb80765c8703e42b90324a4ece3b6634947b89e769c3c980ab55185"
-url = "https://nodejs.org/dist/v24.16.0/node-v24.16.0-darwin-x64.tar.gz"
+checksum = "sha256:d5e336d588c45be0c37dbd52cc29895593009ca4997a77a1fd02815131ed0e52"
+url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-darwin-x64.tar.gz"
 
 [tools.node."platforms.windows-x64"]
-checksum = "sha256:edaca9bd58ec8e92037dac4e877d52f6b8f430b81c18b57e264b4e2fb111cd56"
-url = "https://nodejs.org/dist/v24.16.0/node-v24.16.0-win-x64.zip"
+checksum = "sha256:ca1bff5d8ead13c9f2ea404a176db46bd430704d5b5113734049fa365e7799e2"
+url = "https://nodejs.org/dist/v24.22.2/node-v24.22.2-win-x64.zip"
 
 [[tools.pinact]]
 version = "4.0.0"
@@ -182,37 +182,40 @@ url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v4.0.0/pinact
 provenance = "github-attestations"
 
 [[tools.pnpm]]
-version = "11.2.2"
+version = "11.28.11"
 backend = "aqua:pnpm/pnpm"
 
 [tools.pnpm."platforms.linux-arm64"]
-checksum = "sha256:8c5da2d27cd86ac0ce0cee6d0b8d79b6353612351f761de3707dbc9d09d303fc"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-arm64.tar.gz"
+checksum = "sha256:9c60e840e5e61f90a24adbe686a097237bcb31a68a5a78bf52cf904105fcc078"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.11/pnpm-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/711481963"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-arm64-musl"]
-checksum = "sha256:a7f4de96ae6b63919792a15652a99fd6d209c85172237a6abe22ef89f308920c"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-arm64-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64"]
-checksum = "sha256:a35b592d85a208222fc354f15e9f04d08add1aff1382a30b48094ea8b618a302"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-x64.tar.gz"
+checksum = "sha256:245b9ad9dd85b2ce876d62adf93fd2b227bd3c230deeb8a54b4d6a08f5a2d136"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.11/pnpm-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/711481965"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl"]
-checksum = "sha256:e761ac60bb5b9bd6b423adce7edad7590a72de82ca11149e97f119890ef0fd49"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-linux-x64-musl.tar.gz"
+checksum = "sha256:84b78a1cc9bc0df32648fd05ab6f30f33752deb068454aa5370d0f5c1677daaa"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.11/pnpm-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/711481966"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.macos-arm64"]
-checksum = "sha256:89ab58c43ea3551aea88809ab5103a9a8356bbffe4382b2dc591129c2d0f54c0"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-darwin-arm64.tar.gz"
+checksum = "sha256:c9412b905060f37f16cd94e5fd06b1a14dd1beff74555479190505a4921790f4"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.11/pnpm-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/711481964"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.windows-x64"]
-checksum = "sha256:c904bff9595cd681bb8c396b454677a5294217e1726b7afca1839bbbb31a91d2"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.2.2/pnpm-win32-x64.zip"
+checksum = "sha256:7e892eb4c3a37cebb6c8aa5ad0e3d0a20060f1a4ff064d17aa9753829e1f5f2c"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.28.11/pnpm-win32-x64.zip"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/711481967"
 provenance = "github-attestations"
 
 [[tools.zizmor]]
@@ -225,6 +228,9 @@ url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aar
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-arm64-musl"]
+checksum = "sha256:d66e37ef8a375fb07939c630ebf9709a6e0f20242bdc3faf672a7ed97e0b768d"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578623"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64"]
@@ -233,6 +239,9 @@ url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl"]
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/395578625"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.macos-arm64"]
